@@ -1,0 +1,291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &364257570915073547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7724415666155731790}
+  - component: {fileID: 3572421123778203653}
+  m_Layer: 0
+  m_Name: Spline 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7724415666155731790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364257570915073547}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8058542047963593638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3572421123778203653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364257570915073547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4232a5443b63a449791b3c1dd9e199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SplineSegments:
+  - StartPoint:
+      x: 1.1863835
+      y: 0
+      z: -2.445705
+    FirstInterpolationPoint:
+      x: 10.89908
+      y: 0
+      z: -0.38554573
+    SecondInterpolationPoint:
+      x: 10.594029
+      y: 0
+      z: 6.3940806
+    EndPoint:
+      x: 1.9863927
+      y: 0
+      z: 9.166613
+  - StartPoint:
+      x: 1.9863927
+      y: 0
+      z: 9.166613
+    FirstInterpolationPoint:
+      x: -11.417656
+      y: 0
+      z: 11.957264
+    SecondInterpolationPoint:
+      x: 7.3373
+      y: 0
+      z: 14.4576435
+    EndPoint:
+      x: -0.4387207
+      y: 0
+      z: 21.975048
+  drawBrokenLinePoint: 0
+  brokenLinePointColor: {r: 120, g: 0, b: 255, a: 255}
+  splineLinePointSize: 1
+  splineColor: {r: 0, g: 1, b: 1, a: 1}
+  linearSplineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  linearSplineConnectorColor: {r: 255, g: 255, b: 255, a: 0.1}
+  splineLeverSize: 1
+  drawSplineSegmentPoints: 0
+--- !u!1 &1062907150624358540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3104825013512891428}
+  - component: {fileID: 8660966152893281333}
+  m_Layer: 0
+  m_Name: Spline 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3104825013512891428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062907150624358540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8058542047963593638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8660966152893281333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062907150624358540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4232a5443b63a449791b3c1dd9e199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SplineSegments:
+  - StartPoint:
+      x: 0
+      y: 0
+      z: 0
+    FirstInterpolationPoint:
+      x: 7.737177
+      y: 0
+      z: -0.39809895
+    SecondInterpolationPoint:
+      x: 5
+      y: 0
+      z: 5
+    EndPoint:
+      x: -1.0096064
+      y: 0
+      z: 7.6210585
+  - StartPoint:
+      x: -1.0096064
+      y: 0
+      z: 7.6210585
+    FirstInterpolationPoint:
+      x: -11.417656
+      y: 0
+      z: 11.957264
+    SecondInterpolationPoint:
+      x: 3.1886797
+      y: 0
+      z: 15.166424
+    EndPoint:
+      x: -4.002165
+      y: 0
+      z: 20.558136
+  drawBrokenLinePoint: 0
+  brokenLinePointColor: {r: 120, g: 0, b: 255, a: 255}
+  splineLinePointSize: 1
+  splineColor: {r: 0, g: 1, b: 1, a: 1}
+  linearSplineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  linearSplineConnectorColor: {r: 255, g: 255, b: 255, a: 0.1}
+  splineLeverSize: 1
+  drawSplineSegmentPoints: 0
+--- !u!1 &5091312540571979475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7717163420388777818}
+  - component: {fileID: 3290449291146585376}
+  m_Layer: 0
+  m_Name: Spline 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7717163420388777818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091312540571979475}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8058542047963593638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3290449291146585376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091312540571979475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e4232a5443b63a449791b3c1dd9e199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SplineSegments:
+  - StartPoint:
+      x: -6.395855
+      y: 0
+      z: -0.9765754
+    FirstInterpolationPoint:
+      x: 7.737177
+      y: 0
+      z: -0.39809895
+    SecondInterpolationPoint:
+      x: 2.671514
+      y: 0
+      z: 5.2178836
+    EndPoint:
+      x: -4.8716583
+      y: 0
+      z: 6.447527
+  - StartPoint:
+      x: -4.8716583
+      y: 0
+      z: 6.447527
+    FirstInterpolationPoint:
+      x: -14.03967
+      y: 0
+      z: 13.247297
+    SecondInterpolationPoint:
+      x: -0.367095
+      y: 0
+      z: 15.217725
+    EndPoint:
+      x: -9.886457
+      y: 0
+      z: 21.128002
+  drawBrokenLinePoint: 0
+  brokenLinePointColor: {r: 120, g: 0, b: 255, a: 255}
+  splineLinePointSize: 1
+  splineColor: {r: 0, g: 1, b: 1, a: 1}
+  linearSplineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  linearSplineConnectorColor: {r: 255, g: 255, b: 255, a: 0.1}
+  splineLeverSize: 1
+  drawSplineSegmentPoints: 0
+--- !u!1 &5895139906697913637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8058542047963593638}
+  m_Layer: 0
+  m_Name: TestSpline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8058542047963593638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5895139906697913637}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3104825013512891428}
+  - {fileID: 7717163420388777818}
+  - {fileID: 7724415666155731790}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da85fb0b482bafc498d57690fc44f431, type: 3}
+  m_Name: TestMap
+  m_EditorClassIdentifier: 
+  <Splines>k__BackingField: {fileID: 5895139906697913637, guid: ccd22f2ab55ceea49a2df55698b81cca,
+    type: 3}
+  <Grid>k__BackingField: {fileID: 0}
+  <MapDecorations>k__BackingField: {fileID: 7034255473898312547, guid: c2ca31d2e81cea14b8f42a1f3cc6aeee,
+    type: 3}
