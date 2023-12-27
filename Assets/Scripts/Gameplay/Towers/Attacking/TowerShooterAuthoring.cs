@@ -1,4 +1,4 @@
-using GC.SplineMovement;
+using GC.SplineFramework;
 using Unity.Entities;
 using Unity.Entities.UniversalDelegates;
 using Unity.Mathematics;

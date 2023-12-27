@@ -2,7 +2,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 
-namespace GC.SplineMovement
+namespace GC.SplineFramework
 {
     [ChunkSerializable]
     public struct Spline : IComponentData
@@ -39,9 +39,9 @@ namespace GC.SplineMovement
 
         private void GetTotalLength()
         {
-            foreach (var segment in SplineSegments)
+            for(int i = 1; i < SplineSegments.Length; i++)
             {
-                SplineLength += segment.SplineData.brokenLinesPercents[^1];
+                SplineLength += SplineSegments[i].SplineData.brokenLinesPercents[^1];
             }
         }
 

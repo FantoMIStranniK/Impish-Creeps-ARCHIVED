@@ -10,7 +10,7 @@ using UnityEditor.EditorTools;
 using UnityEditor.ShortcutManagement;
 #endif
 
-namespace GC.SplineMovement
+namespace GC.SplineFramework
 {
     public class SplineAuthoring : MonoBehaviour
     {

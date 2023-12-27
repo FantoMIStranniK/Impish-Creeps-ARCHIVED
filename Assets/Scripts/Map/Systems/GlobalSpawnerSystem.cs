@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Unity.Entities;
 using Unity.Collections;
-using GC.SplineMovement;
+using GC.SplineFramework;
 
 namespace GC.Map
 {
@@ -81,11 +81,11 @@ namespace GC.Map
 
         private void CreateSpline(List<SplineSegment> splineSegments)
         {
-            Spline spline = new Spline();
+            SplineFramework.Spline spline = new SplineFramework.Spline();
 
             spline.Init(new NativeArray<SplineSegment>(splineSegments.ToArray(), Allocator.Persistent));
 
-            Entity entity = CreateEntityFromType(typeof(Spline));
+            Entity entity = CreateEntityFromType(typeof(SplineFramework.Spline));
 
             entityManager.SetComponentData(entity, spline);
         }
