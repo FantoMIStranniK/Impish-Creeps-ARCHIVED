@@ -1,7 +1,7 @@
 using GC.SplineFramework;
 using GC.Units.Movement;
-using Unity.Burst;
 using Unity.Entities;
+using Unity.Burst;
 
 namespace GC.Gameplay
 {
