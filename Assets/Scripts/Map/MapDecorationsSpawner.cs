@@ -12,7 +12,7 @@ namespace GC.Map
 
         private void CreateMapDeco()
         {
-            var map = GlobalSpawnerSystem.MapPrefab.MapDecorations;
+            var map = GlobalSpawnerSystem.MapPrefab.MapContainer.MapDecorations;
 
             Instantiate(map, float3.zero, quaternion.identity);
 

@@ -26,15 +26,17 @@ public readonly partial struct UnitSpawnerAspect : IAspect
     }
     
     [BurstCompile]
-    public void Spawn(EntityCommandBuffer entityCommandBuffer, SplineContainer splineContainer,
-        UnitDeckComponent unitDeck, BufferLookup<UnitDeckIndex> unitDeckIndexLookup)
+    public void Spawn(EntityCommandBuffer entityCommandBuffer, SplineContainer splineContainer, DynamicBuffer<UnitDeckElement> unitBuffer, int unitIndex)
     {
         if (!spawnTime.ValueRW.canSpawn)
             return;
 
         //Debug.Log($"spawn {unitDeck.deck[0]}");
         //Entity unit = unitDeck.deck[0];
-        Entity spawnedEntity = entityCommandBuffer.Instantiate(unitDeck.test);//]);
+
+        var unitDeckElement = unitBuffer[unitIndex];
+
+        Entity spawnedEntity = entityCommandBuffer.Instantiate(unitDeckElement.unit);//]);
         entityCommandBuffer.SetComponent(spawnedEntity, new LocalTransform
         {
             Position = splineContainer.GetSplineByIndex(0).SplineSegments[0].StartPoint,

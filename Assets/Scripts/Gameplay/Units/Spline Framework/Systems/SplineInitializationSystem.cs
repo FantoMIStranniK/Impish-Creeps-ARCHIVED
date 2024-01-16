@@ -1,32 +1,32 @@
+using UnityEngine;
 using Unity.Entities;
 using Unity.Collections;
-using GC.Units.Movement;
+using GC.Map;
 
 namespace GC.SplineFramework
 {
-    [UpdateBefore(typeof(UnitMovementSystem))]
+    [UpdateInGroup(typeof(InitializationSystemGroup))]
+    [UpdateAfter(typeof(GlobalSpawnerSystem))]
     public partial class SplineInitializationSystem : SystemBase
     {
-        protected override void OnUpdate()
+        protected override void OnCreate()
         {
-            var mapCheckSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<MapCheckingSystem>();
+            GlobalSpawnerSystem.OnMapCreationFinished += InitSplineContainer;
+        }
 
-            if (mapCheckSystem.CurrentMapType != MapType.Gameplay)
-                return;
+        protected override void OnUpdate() {}
 
+        private void InitSplineContainer()
+        {
             RefRW<SplineContainer> splineContainer;
 
             if (!SystemAPI.TryGetSingletonRW(out splineContainer))
+            {
+                Debug.LogError("ERROR: Failed to fetch SplineContainer");
+
                 return;
+            }
 
-            if (splineContainer.ValueRW.IsSetUp)
-                return;
-
-            InitSplineContainer(splineContainer);
-        }
-
-        private void InitSplineContainer(RefRW<SplineContainer> splineContainer)
-        {
             NativeList<Spline> splines = new NativeList<Spline>(Allocator.Persistent);
 
             foreach (Spline spline in SystemAPI.Query<Spline>())
@@ -34,7 +34,7 @@ namespace GC.SplineFramework
                 splines.Add(spline);
             }
 
-            splineContainer.ValueRW.Splines = splines.ToArray(Allocator.Persistent);
+            splineContainer.ValueRW.Splines = splines.AsArray();
 
             splineContainer.ValueRW.IsSetUp = true;
         }

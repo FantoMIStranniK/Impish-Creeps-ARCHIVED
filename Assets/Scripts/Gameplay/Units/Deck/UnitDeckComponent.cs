@@ -4,6 +4,10 @@ using Unity.Entities;
 [ChunkSerializable]
 public struct UnitDeckComponent : IComponentData
 {
-    public NativeArray<Entity> deck;
-    public Entity test;
+    public int selectedUnit;
+}
+
+public struct UnitDeckElement : IBufferElementData
+{
+    public Entity unit;
 }

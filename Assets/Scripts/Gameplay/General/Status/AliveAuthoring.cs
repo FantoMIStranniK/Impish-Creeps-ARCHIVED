@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class AliveAuthoring : MonoBehaviour
 {
-    public uint maxHealth;
-    public uint currentHealth;
+    public int maxHealth;
+    public int currentHealth;
 }
 
 public class AliveBaker : Baker<AliveAuthoring>

@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
+using GC.SplineFramework;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,7 +11,7 @@ using UnityEditor.EditorTools;
 using UnityEditor.ShortcutManagement;
 #endif
 
-namespace GC.SplineFramework
+namespace GC.SplineMovement
 {
     public class SplineAuthoring : MonoBehaviour
     {
@@ -52,6 +53,8 @@ namespace GC.SplineFramework
             {
                 DrawLinearSpline(segment);
             }
+
+            DrawSplineEnds();
         }
 
         private void OnDrawGizmos()
@@ -84,6 +87,9 @@ namespace GC.SplineFramework
 
             Gizmos.DrawCube(segment.FirstInterpolationPoint, cubeSize);
             Gizmos.DrawCube(segment.SecondInterpolationPoint, cubeSize);
+
+            Gizmos.color = splineColor;
+            Gizmos.DrawCube(segment.StartPoint, cubeSize);
         }
         //
         private void DrawCubicSpline(SplineSegment segment)
@@ -167,8 +173,20 @@ namespace GC.SplineFramework
     [EditorTool("Spline Tool", typeof(SplineAuthoring))]
     public class SplineTool : EditorTool, IDrawSelectedHandles
     {
+        private bool active;
+
+        public override void OnActivated()
+        {
+            base.OnActivated();
+
+            active = true;
+        }
+
         public void OnDrawHandles()
         {
+            if (!active)
+                return;
+
             SplineAuthoring spline = target as SplineAuthoring;
 
             for (int i = 0; i < spline.SplineSegments.Count; i++)
@@ -185,7 +203,6 @@ namespace GC.SplineFramework
                 EditorGUI.BeginChangeCheck();
 
                 //Handles.DrawSolidDisc(currentSegment.EndPoint, new Vector3(0, 1, 0), 1f);
-
                 float3 newPos1 = Handles.PositionHandle(currentSegment.FirstInterpolationPoint, Quaternion.identity);
                 float3 newPos2 = Handles.PositionHandle(currentSegment.SecondInterpolationPoint, Quaternion.identity);
 
@@ -205,7 +222,7 @@ namespace GC.SplineFramework
 
                 EditorGUI.BeginChangeCheck();
 
-                Handles.DrawSolidDisc(currentSegment.EndPoint, new Vector3(0, 1, 0), 1f);
+                //Handles.DrawSolidDisc(currentSegment.EndPoint, new Vector3(0, 1, 0), 1f);//
 
                 float3 newPos = Handles.PositionHandle(currentSegment.EndPoint, Quaternion.identity);
 
@@ -226,7 +243,7 @@ namespace GC.SplineFramework
             EditorGUI.BeginChangeCheck();
 
             Handles.color = Color.yellow;
-            Handles.DrawSolidDisc(currentSegment.StartPoint, new Vector3(0, 1, 0), 1f);
+            //Handles.DrawSolidDisc(currentSegment.StartPoint, new Vector3(0, 1, 0), 1f);
 
             float3 newPos = Handles.PositionHandle(currentSegment.StartPoint, Quaternion.identity);
 
@@ -308,6 +325,13 @@ namespace GC.SplineFramework
             //        undoIndex++;
             //    }
             //}
+        }
+
+        public override void OnWillBeDeactivated()
+        {
+            base.OnWillBeDeactivated();
+
+            active = false;
         }
     }
 #endif

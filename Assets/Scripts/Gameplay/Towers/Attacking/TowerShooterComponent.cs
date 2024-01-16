@@ -9,7 +9,7 @@ public struct TowerShooterComponent : IComponentData
     public float attackTime;
     public float attackTimer;
 
-    public uint damage;
+    public int damage;
     public ushort pierce;
 
     public float lifeTime;

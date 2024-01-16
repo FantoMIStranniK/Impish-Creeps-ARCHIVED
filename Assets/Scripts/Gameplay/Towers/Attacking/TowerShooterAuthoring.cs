@@ -1,4 +1,4 @@
-using GC.SplineFramework;
+using GC.SplineMovement;
 using Unity.Entities;
 using Unity.Entities.UniversalDelegates;
 using Unity.Mathematics;
@@ -14,7 +14,7 @@ public class TowerShooterAuthoring : MonoBehaviour
 
     public float attackTime;
 
-    public uint damage;
+    public int damage;
     public ushort pierce;
 
     public float lifeTime;

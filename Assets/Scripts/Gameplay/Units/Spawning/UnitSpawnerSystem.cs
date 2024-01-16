@@ -3,14 +3,14 @@ using Unity.Burst;
 using Unity.Entities;
 
 [BurstCompile]
-[UpdateInGroup(typeof(SimulationSystemGroup))]
+[UpdateAfter(typeof(SimulationSystemGroup))]
 public partial struct UnitSpawnerSystem : ISystem
 {
-    private BufferLookup<UnitDeckIndex> unitDeckIndexLookup;
+    private BufferLookup<UnitDeckElement> unitDeckIndexLookup;
     public void OnCreate(ref SystemState state) 
     {
         //state.World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>()
-        unitDeckIndexLookup = state.GetBufferLookup<UnitDeckIndex>(true);
+        unitDeckIndexLookup = state.GetBufferLookup<UnitDeckElement>(true);
     }
 
     public void OnDestroy(ref SystemState state) { }
@@ -43,7 +43,7 @@ public partial struct UnitSpawnerSystem : ISystem
         foreach (UnitSpawnerAspect unitSpawner in SystemAPI.Query<UnitSpawnerAspect>())
         {
             unitSpawner.UpdateSpawnTimer(deltaTime);
-            unitSpawner.Spawn(entityCommandBuffer, splineContainer, unitDeck, unitDeckIndexLookup);
+            unitSpawner.Spawn(entityCommandBuffer, splineContainer, SystemAPI.GetSingletonBuffer<UnitDeckElement>(true), 0);
         }
     }
 }

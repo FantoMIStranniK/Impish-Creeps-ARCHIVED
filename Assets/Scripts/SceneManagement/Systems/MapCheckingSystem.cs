@@ -10,6 +10,7 @@ public enum MapType
     None,
     Base,
     Gameplay,
+    SubScene,
 }
 
 [UpdateInGroup(typeof(InitializationSystemGroup))]
@@ -41,9 +42,6 @@ public partial class MapCheckingSystem : SystemBase
         {
             SceneManager.LoadScene(i);
 
-            if (SceneManager.GetSceneByBuildIndex(i).isSubScene)
-                continue;
-
             if (!TryGetMapType(out Scene scene, out MapType mapType, i))
                 continue;
 
@@ -74,6 +72,9 @@ public partial class MapCheckingSystem : SystemBase
 
     private void OnLevelChange(Scene scene, LoadSceneMode mode)
     {
+        if (Maps[scene.name] == MapType.SubScene)
+            return;
+
         if (scene.isSubScene)
             return;
 

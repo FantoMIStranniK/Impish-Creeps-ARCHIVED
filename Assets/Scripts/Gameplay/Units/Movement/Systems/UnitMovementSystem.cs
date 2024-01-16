@@ -5,7 +5,6 @@ using Unity.Entities;
 namespace GC.Units.Movement
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    [UpdateAfter(typeof(SplineInitializationSystem))]
     [BurstCompile]
     public partial struct UnitMovementSystem : ISystem
     {
@@ -18,6 +17,11 @@ namespace GC.Units.Movement
         [BurstCompile]
         private void OnUpdate(ref SystemState state)
         {
+            TryMoveUnit(ref state);
+        }
+
+        private void TryMoveUnit(ref SystemState state)
+        {
             SplineContainer splineContainer;
 
             if (!SystemAPI.TryGetSingleton(out splineContainer))
@@ -26,7 +30,7 @@ namespace GC.Units.Movement
             if (!splineContainer.IsSetUp)
                 return;
 
-            foreach(UnitMovementAspect unitMovementAspect in SystemAPI.Query<UnitMovementAspect>())
+            foreach (UnitMovementAspect unitMovementAspect in SystemAPI.Query<UnitMovementAspect>())
             {
                 unitMovementAspect.MoveUnit(splineContainer, SystemAPI.Time.DeltaTime);
             }

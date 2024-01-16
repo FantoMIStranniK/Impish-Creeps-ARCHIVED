@@ -2,6 +2,7 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
+using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
 
@@ -29,8 +30,7 @@ public partial struct ProjectileDamageSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         EntityCommandBuffer ecb =
-            SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
-        //EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
+            SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
         SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
 
         healthLookup.Update(ref state);
@@ -47,11 +47,6 @@ public partial struct ProjectileDamageSystem : ISystem
         }.Schedule(simulation, state.Dependency);
 
         state.Dependency.Complete();
-
-        //ecb.Playback(state.EntityManager);
-        //ecb.Dispose();
-
-        //Debug.Log("1");
     }
 }  
 
@@ -107,14 +102,15 @@ public struct ProjectileHitJob : ITriggerEventsJob
         if (hp.ValueRO.currentHealth < 1)
         {
             deadEntities.Add(enemy);
+            //ECB.DestroyEntity(enemy);
             ECB.AddComponent(enemy, new IsDisposingComponent());
         }
 
         if (damage.pierce <= hitList[projectile].Length)
         {
             deadEntities.Add(projectile);
+            //ECB.DestroyEntity(enemy);
             ECB.AddComponent(projectile, new IsDisposingComponent());
         }
     }
-
 }

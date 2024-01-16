@@ -19,24 +19,20 @@ public class UnitDeckBaker : Baker<UnitDeckAuthoring>
         }
 
         Entity entity = GetEntity(TransformUsageFlags.None);
-        NativeArray<Entity> nativeDeck = new NativeArray<Entity>(10, Allocator.Persistent);
+        NativeArray<UnitDeckElement> nativeDeck = new NativeArray<UnitDeckElement>(10, Allocator.Persistent);
 
         for (int i = 0; i < nativeDeck.Length; i++)
         {
-            nativeDeck[i] = GetEntity(authoring.deck[i].gameObject, TransformUsageFlags.Dynamic);
+            UnitDeckElement element = nativeDeck[i];
+
+            element.unit = GetEntity(authoring.deck[i].gameObject, TransformUsageFlags.Dynamic);
+
+            nativeDeck[i] = element;
         }
 
-        AddComponent(entity, new UnitDeckComponent
-        {
-            deck = nativeDeck,
-            test = nativeDeck[0],
-        });
+        AddComponent(entity, new UnitDeckComponent());
 
-        AddBuffer<UnitDeckIndex>(entity);
+        AddBuffer<UnitDeckElement>(entity).AddRange(nativeDeck);
     }
 }
 
-public struct UnitDeckIndex : IBufferElementData
-{
-    public byte type;
-}

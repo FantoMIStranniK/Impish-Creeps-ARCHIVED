@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Gameplay/Gate/GateHealthSystem.cs.meta
+guid: aa897eaadb238b74db64430ff00e3561
+========
+guid: c88c30ca3152cf946a03f374b830c53f
+>>>>>>>> 374d732 (hope this works):Assets/Scripts/Gameplay/Towers/Deck/TowerDeck.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

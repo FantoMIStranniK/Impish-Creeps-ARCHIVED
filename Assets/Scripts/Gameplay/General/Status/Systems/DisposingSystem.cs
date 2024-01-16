@@ -1,8 +1,7 @@
 using Unity.Burst;
 using Unity.Entities;
-using UnityEngine;
 
-[UpdateInGroup(typeof(LateSimulationSystemGroup))]
+[UpdateAfter(typeof(LateSimulationSystemGroup))]
 [BurstCompile]
 public partial struct DisposingSystem : ISystem
 {
@@ -15,7 +14,7 @@ public partial struct DisposingSystem : ISystem
     void OnUpdate(ref SystemState state)
     {
         EntityCommandBuffer ecb =
-            SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
+            SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 
         //EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
         foreach ((IsDisposingComponent isDisposing, Entity entity) in SystemAPI.Query<IsDisposingComponent>().WithEntityAccess())

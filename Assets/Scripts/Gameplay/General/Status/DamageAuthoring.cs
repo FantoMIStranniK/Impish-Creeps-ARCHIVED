@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(PhysicsShapeAuthoring))]
 public class DamageAuthoring : MonoBehaviour
 {
-    public uint damage;
+    public int damage;
     public ushort pierce;
 }
 
