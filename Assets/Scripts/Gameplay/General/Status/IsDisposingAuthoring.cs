@@ -1,16 +1,16 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-public class IsDisposingAuthoring : MonoBehaviour
+namespace GC.Gameplay.Status
 {
-    
-}
+    public class IsDisposingAuthoring : MonoBehaviour { }
 
-public class IsDisposingBaker : Baker<IsDisposingAuthoring>
-{
-    public override void Bake(IsDisposingAuthoring authoring)
+    public class IsDisposingBaker : Baker<IsDisposingAuthoring>
     {
-        Entity entity = GetEntity(TransformUsageFlags.None);
-        AddComponent(entity, new IsDisposingComponent());
+        public override void Bake(IsDisposingAuthoring authoring)
+        {
+            Entity entity = GetEntity(TransformUsageFlags.None);
+            AddComponent(entity, new IsDisposingComponent());
+        }
     }
 }

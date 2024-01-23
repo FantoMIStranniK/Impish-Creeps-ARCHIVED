@@ -1,16 +1,16 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-public class ProjectileTagAuthoring : MonoBehaviour
+namespace GC.Gameplay.Towers.Projectiles
 {
-    
-}
+    public class ProjectileTagAuthoring : MonoBehaviour { }
 
-public class ProjectileTagBaker : Baker<ProjectileTagAuthoring>
-{
-    public override void Bake(ProjectileTagAuthoring authoring)
+    public class ProjectileTagBaker : Baker<ProjectileTagAuthoring>
     {
-        Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new ProjectileTag());
+        public override void Bake(ProjectileTagAuthoring authoring)
+        {
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new ProjectileTag());
+        }
     }
 }

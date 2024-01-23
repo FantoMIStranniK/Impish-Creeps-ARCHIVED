@@ -1,19 +1,23 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-public class MotionAuthoring : MonoBehaviour
+namespace GC.Gameplay.Status
 {
-    public float speed;
-}
 
-public class MotionBaker : Baker<MotionAuthoring>
-{
-    public override void Bake(MotionAuthoring authoring)
+    public class MotionAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new MotionComponent
+        public float speed;
+    }
+
+    public class MotionBaker : Baker<MotionAuthoring>
+    {
+        public override void Bake(MotionAuthoring authoring)
         {
-            speed = authoring.speed,
-        });
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new MotionComponent
+            {
+                speed = authoring.speed,
+            });
+        }
     }
 }

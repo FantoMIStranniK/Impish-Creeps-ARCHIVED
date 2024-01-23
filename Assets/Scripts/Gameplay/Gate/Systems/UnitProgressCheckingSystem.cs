@@ -1,9 +1,9 @@
-using GC.SplineFramework;
-using GC.Units.Movement;
-using Unity.Entities;
 using Unity.Burst;
+using Unity.Entities;
+using GC.Gameplay.SplineFramework;
+using GC.Gameplay.Units.Movement;
 
-namespace GC.Gameplay
+namespace GC.Gameplay.Gate
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     [UpdateAfter(typeof(UnitMovementSystem))]

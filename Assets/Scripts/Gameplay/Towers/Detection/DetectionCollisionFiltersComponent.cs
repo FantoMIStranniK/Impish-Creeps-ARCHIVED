@@ -1,8 +1,11 @@
 using Unity.Entities;
 using Unity.Physics;
 
-public struct DetectionCollisionFiltersComponent : IComponentData
+namespace GC.Gameplay.Towers.Detection
 {
-    public CollisionFilter unit;
-    public CollisionFilter tower;
+    public struct DetectionCollisionFiltersComponent : IComponentData
+    {
+        public CollisionFilter unit;
+        public CollisionFilter tower;
+    }
 }

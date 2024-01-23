@@ -1,8 +1,11 @@
 using Unity.Entities;
 
-public struct UnitSpawnTimeComponent : IComponentData
+namespace GC.Gameplay.Units.Spawn
 {
-    public float spawnInterval;
-    public float spawnTimer;
-    public bool canSpawn;
+    public struct UnitSpawnTimeComponent : IComponentData
+    {
+        public float spawnInterval;
+        public float spawnTimer;
+        public bool canSpawn;
+    }
 }

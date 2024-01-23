@@ -1,7 +1,7 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-namespace GC.Units.Movement
+namespace GC.Gameplay.Units.Movement
 {
     public class UnitMovementComponentAuthoring : MonoBehaviour
     {

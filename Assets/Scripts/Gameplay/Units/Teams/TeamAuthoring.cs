@@ -1,19 +1,22 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-public class TeamAuthoring : MonoBehaviour
+namespace GC.Gameplay.Units.Teams
 {
-    public byte team;
-}
-
-public class TeamBaker : Baker<TeamAuthoring>
-{
-    public override void Bake(TeamAuthoring authoring)
+    public class TeamAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new TeamComponent 
-        { 
-            team = authoring.team,
-        });
+        public byte team;
+    }
+
+    public class TeamBaker : Baker<TeamAuthoring>
+    {
+        public override void Bake(TeamAuthoring authoring)
+        {
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new TeamComponent
+            {
+                team = authoring.team,
+            });
+        }
     }
 }

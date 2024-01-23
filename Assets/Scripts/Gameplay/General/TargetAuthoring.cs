@@ -1,16 +1,20 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
+using GC.Gameplay.Towers;
 
-public class TargetAuthoring : MonoBehaviour
+namespace GC.Gameplay
 {
-    
-}
-
-public class TargetBaker : Baker<TowerRadiusAuthoring>
-{
-    public override void Bake(TowerRadiusAuthoring authoring)
+    public class TargetAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.None);
-        AddComponent(entity, new TargetComponent());
+
+    }
+
+    public class TargetBaker : Baker<TowerRadiusAuthoring>
+    {
+        public override void Bake(TowerRadiusAuthoring authoring)
+        {
+            Entity entity = GetEntity(TransformUsageFlags.None);
+            AddComponent(entity, new TargetComponent());
+        }
     }
 }

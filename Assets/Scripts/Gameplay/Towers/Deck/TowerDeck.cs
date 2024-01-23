@@ -1,13 +1,16 @@
-using Unity.Collections;
 using Unity.Entities;
 
-[ChunkSerializable]
-public struct TowerDeck : IComponentData
+namespace GC.Gameplay.Towers.Deck
 {
-    public int selectedTower;
-}
 
-public struct TowerDeckElement : IBufferElementData
-{
-    public Entity tower;
+    [ChunkSerializable]
+    public struct TowerDeck : IComponentData
+    {
+        public int selectedTower;
+    }
+
+    public struct TowerDeckElement : IBufferElementData
+    {
+        public Entity tower;
+    }
 }

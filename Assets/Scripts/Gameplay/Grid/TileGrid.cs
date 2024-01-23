@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
-using GC.SplineMovement;
+using GC.Gameplay.SplineFramework;
 
 namespace GC.Gameplay.Grid
 {

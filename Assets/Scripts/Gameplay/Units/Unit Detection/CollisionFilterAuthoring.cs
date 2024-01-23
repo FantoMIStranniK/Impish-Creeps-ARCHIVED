@@ -1,22 +1,25 @@
+using UnityEngine;
 using Unity.Entities;
 using Unity.Physics.Authoring;
-using UnityEngine;
 
-public class CollisionFilterAuthoring : MonoBehaviour
+namespace GC.Gameplay.Units.Collisions
 {
-    public PhysicsCategoryTags friendly;
-    public PhysicsCategoryTags enemy;
-}
-
-public class CollisionFilterBaker : Baker<CollisionFilterAuthoring>
-{
-    public override void Bake(CollisionFilterAuthoring authoring)
+    public class CollisionFilterAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.None);
-        AddComponent(entity, new CollisionFilterComponent
+        public PhysicsCategoryTags friendly;
+        public PhysicsCategoryTags enemy;
+    }
+
+    public class CollisionFilterBaker : Baker<CollisionFilterAuthoring>
+    {
+        public override void Bake(CollisionFilterAuthoring authoring)
         {
-            friendly = authoring.friendly,
-            enemy = authoring.enemy,
-        });
+            Entity entity = GetEntity(TransformUsageFlags.None);
+            AddComponent(entity, new CollisionFilterComponent
+            {
+                friendly = authoring.friendly,
+                enemy = authoring.enemy,
+            });
+        }
     }
 }

@@ -1,7 +1,9 @@
 using Unity.Entities;
-using Unity.Physics.Authoring;
 
-public struct TeamComponent : IComponentData
+namespace GC.Gameplay.Units.Teams
 {
-    public byte team;
+    public struct TeamComponent : IComponentData
+    {
+        public byte team;
+    }
 }

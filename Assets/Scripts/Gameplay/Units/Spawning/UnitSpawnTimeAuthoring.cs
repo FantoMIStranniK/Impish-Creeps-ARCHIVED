@@ -1,19 +1,22 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-public class UnitSpawnTimeAuthoring : MonoBehaviour
+namespace GC.Gameplay.Units.Spawn
 {
-    public float spawnInterval;
-}
-
-public class UnitSpawnTimeBaker : Baker<UnitSpawnTimeAuthoring>
-{
-    public override void Bake(UnitSpawnTimeAuthoring authoring)
+    public class UnitSpawnTimeAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new UnitSpawnTimeComponent
+        public float spawnInterval;
+    }
+
+    public class UnitSpawnTimeBaker : Baker<UnitSpawnTimeAuthoring>
+    {
+        public override void Bake(UnitSpawnTimeAuthoring authoring)
         {
-            spawnInterval = authoring.spawnInterval,
-        });
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new UnitSpawnTimeComponent
+            {
+                spawnInterval = authoring.spawnInterval,
+            });
+        }
     }
 }

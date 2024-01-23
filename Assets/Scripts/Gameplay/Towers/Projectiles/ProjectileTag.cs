@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-public struct ProjectileTag : IComponentData
+namespace GC.Gameplay.Towers.Projectiles
 {
-    
+    public struct ProjectileTag : IComponentData { }
 }

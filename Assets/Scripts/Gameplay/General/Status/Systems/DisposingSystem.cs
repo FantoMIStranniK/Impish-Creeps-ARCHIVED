@@ -1,28 +1,31 @@
 using Unity.Burst;
 using Unity.Entities;
 
-[UpdateAfter(typeof(LateSimulationSystemGroup))]
-[BurstCompile]
-public partial struct DisposingSystem : ISystem
+namespace GC.Gameplay.Status
 {
+    [UpdateAfter(typeof(LateSimulationSystemGroup))]
     [BurstCompile]
-    void OnCreate(ref SystemState state) { }
-    [BurstCompile]
-    void OnDestroy(ref SystemState state) { }
-
-    [BurstCompile]
-    void OnUpdate(ref SystemState state)
+    public partial struct DisposingSystem : ISystem
     {
-        EntityCommandBuffer ecb =
-            SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
+        [BurstCompile]
+        void OnCreate(ref SystemState state) { }
+        [BurstCompile]
+        void OnDestroy(ref SystemState state) { }
 
-        //EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
-        foreach ((IsDisposingComponent isDisposing, Entity entity) in SystemAPI.Query<IsDisposingComponent>().WithEntityAccess())
+        [BurstCompile]
+        void OnUpdate(ref SystemState state)
         {
-            ecb.DestroyEntity(entity);
-        }
+            EntityCommandBuffer ecb =
+                SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 
-        //ecb.Playback(state.EntityManager);
-        //ecb.Dispose();
-    }//
+            //EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+            foreach ((IsDisposingComponent isDisposing, Entity entity) in SystemAPI.Query<IsDisposingComponent>().WithEntityAccess())
+            {
+                ecb.DestroyEntity(entity);
+            }
+
+            //ecb.Playback(state.EntityManager);
+            //ecb.Dispose();
+        }//
+    }
 }

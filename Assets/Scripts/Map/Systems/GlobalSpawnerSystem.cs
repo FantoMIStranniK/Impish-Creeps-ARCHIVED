@@ -1,12 +1,11 @@
-using GC.SplineFramework;
-using GC.SplineMovement;
 using System;
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Mathematics;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Entities;
+using Unity.Collections;
+using GC.SceneManagement;
+using GC.Gameplay.SplineFramework.Model;
+using GC.Gameplay.SplineFramework;
 
 namespace GC.Map
 {
@@ -73,7 +72,7 @@ namespace GC.Map
 
             CreateSplineContainer();
 
-            //CreateGrid();
+            CreateGrid();
 
             _finishedCreatingMap = true;
 
@@ -114,73 +113,10 @@ namespace GC.Map
             });
         }
 
-        /*private void CreateGrid()
+        private void CreateGrid()
         {
-            if (MapPrefab.MapContainer.Grid == null)
-                return;
 
-            var grid = MapPrefab.MapContainer.Grid.GetComponent<TowerGrid>();
-
-            CreateTiles(grid);
-
-            CreateGridContainer(grid);
         }
-
-        private void CreateTiles(TowerGrid grid)
-        {
-            int j = 0;
-            int i = 0;
-
-            int flatArrayIndex = GetFlatArrayIndex(i, j, grid.RowWidth);
-
-            while (flatArrayIndex < grid.Tiles.Count)
-            {
-                SetUpTile(grid.Tiles[flatArrayIndex], new int2(i, j));
-
-                i++;
-
-                if(i >= grid.RowWidth)
-                {
-                    i = 0;
-                    j++;
-                }
-
-                flatArrayIndex = GetFlatArrayIndex(i, j, grid.RowWidth);
-            }
-        }
-
-        private int GetFlatArrayIndex(int x, int y, int rowWidth)
-            => x + y * rowWidth;
-
-        private void SetUpTile(GameObject tile, int2 indexPosition)
-        {
-            RequireForUpdate<TileDeckComponent>();
-
-            var tileComponent = tile.GetComponent<Tile>();
-
-            var deck = SystemAPI.GetSingletonBuffer<TileDeckElement>(true);
-
-            Entity entity = deck[(int)tileComponent.State].Tile;
-
-            EntityManager.SetComponentData(entity, new TileDataComponent
-            {
-                State = tileComponent.State,
-                IndexPosition = indexPosition
-            });
-
-            EntityManager.Instantiate(entity);
-        }
-
-        private void CreateGridContainer(TowerGrid grid)
-        {
-            Entity entity = CreateEntityFromType(typeof(GridComponent));
-
-            _entityManager.SetComponentData(entity, new GridComponent
-            {
-                IsSetUp = false,
-                RowWidth = grid.RowWidth
-            });
-        }*/
 
         private Entity CreateEntityFromType(params ComponentType[] type)
         {

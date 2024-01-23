@@ -1,8 +1,8 @@
 using Unity.Entities;
-using GC.SplineFramework;
-using GC.Units.Movement;
+using GC.Gameplay.Units.Movement;
+using GC.Gameplay.SplineFramework;
 
-namespace GC.Gameplay
+namespace GC.Gameplay.Gate
 {
     public readonly partial struct EntityProgressAspect : IAspect
     {

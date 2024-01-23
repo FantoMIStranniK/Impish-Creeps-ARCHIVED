@@ -1,8 +1,8 @@
-using Unity.Collections;
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
+using Unity.Collections;
 
-namespace GC.SplineFramework
+namespace GC.Gameplay.SplineFramework
 {
     public class SplineContainerAuthoring : MonoBehaviour { }
 

@@ -1,7 +1,10 @@
 using Unity.Entities;
 
-public struct TemporaryComponent : IComponentData
+namespace GC.Gameplay.Status
 {
-    public float lifeTime;
-    public float lifeTimeRemaning;
+    public struct TemporaryComponent : IComponentData
+    {
+        public float lifeTime;
+        public float lifeTimeRemaning;
+    }
 }

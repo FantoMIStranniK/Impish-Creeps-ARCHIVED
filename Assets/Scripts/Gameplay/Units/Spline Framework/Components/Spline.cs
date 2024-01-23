@@ -1,8 +1,9 @@
-using Unity.Collections;
 using Unity.Entities;
+using Unity.Collections;
 using Unity.Mathematics;
+using GC.Gameplay.SplineFramework.Model;
 
-namespace GC.SplineFramework
+namespace GC.Gameplay.SplineFramework
 {
     [ChunkSerializable]
     public struct Spline : IComponentData

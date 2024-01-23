@@ -1,6 +1,9 @@
 using Unity.Entities;
 
-public struct RandomComponent : IComponentData
+namespace GC.Utilities
 {
-    public Unity.Mathematics.Random random;
+    public struct RandomComponent : IComponentData
+    {
+        public Unity.Mathematics.Random random;
+    }
 }

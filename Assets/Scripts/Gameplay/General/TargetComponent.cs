@@ -1,6 +1,9 @@
 using Unity.Entities;
 
-public struct TargetComponent : IComponentData
+namespace GC.Gameplay
 {
-    public Entity enemy;
+    public struct TargetComponent : IComponentData
+    {
+        public Entity enemy;
+    }
 }

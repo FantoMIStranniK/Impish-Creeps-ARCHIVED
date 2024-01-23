@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-namespace GC.Units.Movement
+namespace GC.Gameplay.Units.Movement
 {
     public struct UnitMovementComponent : IComponentData
     {

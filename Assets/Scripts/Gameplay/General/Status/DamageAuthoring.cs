@@ -1,25 +1,29 @@
+using UnityEngine;
 using Unity.Entities;
 using Unity.Physics.Authoring;
-using UnityEngine;
+using GC.Gameplay.Towers.Projectiles;
 
-[RequireComponent(typeof(PhysicsShapeAuthoring))]
-public class DamageAuthoring : MonoBehaviour
+namespace GC.Gameplay.Status
 {
-    public int damage;
-    public ushort pierce;
-}
-
-public class DamageBaker : Baker<DamageAuthoring>
-{
-    public override void Bake(DamageAuthoring authoring)
+    [RequireComponent(typeof(PhysicsShapeAuthoring))]
+    public class DamageAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.None);
-        AddComponent(entity, new DamageComponent
-        {
-            damage = authoring.damage,
-            pierce = authoring.pierce,
-        });
+        public int damage;
+        public ushort pierce;
+    }
 
-        AddBuffer<HitList>(entity);
+    public class DamageBaker : Baker<DamageAuthoring>
+    {
+        public override void Bake(DamageAuthoring authoring)
+        {
+            Entity entity = GetEntity(TransformUsageFlags.None);
+            AddComponent(entity, new DamageComponent
+            {
+                damage = authoring.damage,
+                pierce = authoring.pierce,
+            });
+
+            AddBuffer<HitList>(entity);
+        }
     }
 }

@@ -1,21 +1,24 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class AliveAuthoring : MonoBehaviour
+namespace GC.Gameplay.Status
 {
-    public int maxHealth;
-    public int currentHealth;
-}
-
-public class AliveBaker : Baker<AliveAuthoring>
-{
-    public override void Bake(AliveAuthoring authoring)
+    public class AliveAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new AliveComponent
+        public int maxHealth;
+        public int currentHealth;
+    }
+
+    public class AliveBaker : Baker<AliveAuthoring>
+    {
+        public override void Bake(AliveAuthoring authoring)
         {
-            maxHealth = authoring.maxHealth,
-            currentHealth = authoring.currentHealth,
-        });
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new AliveComponent
+            {
+                maxHealth = authoring.maxHealth,
+                currentHealth = authoring.currentHealth,
+            });
+        }
     }
 }

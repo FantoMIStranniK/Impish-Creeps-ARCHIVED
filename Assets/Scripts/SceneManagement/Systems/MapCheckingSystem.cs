@@ -5,91 +5,94 @@ using UnityEngine.SceneManagement;
 using Unity.Entities;
 using GC.Map;
 
-public enum MapType
+namespace GC.SceneManagement
 {
-    None,
-    Base,
-    Gameplay,
-    SubScene,
-}
-
-[UpdateInGroup(typeof(InitializationSystemGroup))]
-[UpdateBefore(typeof(GlobalSpawnerSystem))]
-public partial class MapCheckingSystem : SystemBase
-{
-    public MapType CurrentMapType = MapType.None;
-
-    private Dictionary<string, MapType> Maps;
-
-    protected override void OnCreate()
+    public enum MapType
     {
-        CreateMapDictionary();
-
-        CurrentMapType = MapType.Base;
-
-        SceneManager.sceneLoaded += OnLevelChange;
+        None,
+        Base,
+        Gameplay,
+        SubScene,
     }
 
-    protected override void OnUpdate(){}
-
-    private void CreateMapDictionary()
+    [UpdateInGroup(typeof(InitializationSystemGroup))]
+    [UpdateBefore(typeof(GlobalSpawnerSystem))]
+    public partial class MapCheckingSystem : SystemBase
     {
-        Maps = new();
+        public MapType CurrentMapType = MapType.None;
 
-        int sceneCount = SceneManager.sceneCountInBuildSettings;
+        private Dictionary<string, MapType> Maps;
 
-        for(int i = 0; i < sceneCount; i++)
+        protected override void OnCreate()
         {
-            SceneManager.LoadScene(i);
+            CreateMapDictionary();
 
-            if (!TryGetMapType(out Scene scene, out MapType mapType, i))
-                continue;
+            CurrentMapType = MapType.Base;
 
-            if(i != 0)
-                SceneManager.UnloadSceneAsync(i);
-
-            Maps.Add(scene.name, mapType);
+            SceneManager.sceneLoaded += OnLevelChange;
         }
 
-        SceneManager.LoadScene(0);
-    }
+        protected override void OnUpdate() { }
 
-    private bool TryGetMapType(out Scene scene, out MapType mapType, int sceneIndex)
-    {
-        scene = SceneManager.GetSceneByBuildIndex(sceneIndex);
-
-        string scenePrefix = scene.name.Split('_')[0];
-
-        if (!Enum.TryParse(scenePrefix, out mapType))
+        private void CreateMapDictionary()
         {
-            Debug.LogWarning($"WARNING: Possible invalid scene name prefix! Scene name: {scene.name}, scene index: {sceneIndex}");
+            Maps = new();
 
-            return false;
+            int sceneCount = SceneManager.sceneCountInBuildSettings;
+
+            for (int i = 0; i < sceneCount; i++)
+            {
+                SceneManager.LoadScene(i);
+
+                if (!TryGetMapType(out Scene scene, out MapType mapType, i))
+                    continue;
+
+                if (i != 0)
+                    SceneManager.UnloadSceneAsync(i);
+
+                Maps.Add(scene.name, mapType);
+            }
+
+            SceneManager.LoadScene(0);
         }
 
-        return true;
-    }
-
-    private void OnLevelChange(Scene scene, LoadSceneMode mode)
-    {
-        if (Maps[scene.name] == MapType.SubScene)
-            return;
-
-        if (scene.isSubScene)
-            return;
-
-        if(!Maps.ContainsKey(scene.name))
+        private bool TryGetMapType(out Scene scene, out MapType mapType, int sceneIndex)
         {
-            Debug.LogError($"ERROR: Nonexistent map name as key! Scene name: {scene.name}");
+            scene = SceneManager.GetSceneByBuildIndex(sceneIndex);
 
-            return;
+            string scenePrefix = scene.name.Split('_')[0];
+
+            if (!Enum.TryParse(scenePrefix, out mapType))
+            {
+                Debug.LogWarning($"WARNING: Possible invalid scene name prefix! Scene name: {scene.name}, scene index: {sceneIndex}");
+
+                return false;
+            }
+
+            return true;
         }
 
-        CurrentMapType = Maps[scene.name];
-    }
+        private void OnLevelChange(Scene scene, LoadSceneMode mode)
+        {
+            if (Maps[scene.name] == MapType.SubScene)
+                return;
 
-    public void ResetSystem()
-    {
-        throw new NotImplementedException();
+            if (scene.isSubScene)
+                return;
+
+            if (!Maps.ContainsKey(scene.name))
+            {
+                Debug.LogError($"ERROR: Nonexistent map name as key! Scene name: {scene.name}");
+
+                return;
+            }
+
+            CurrentMapType = Maps[scene.name];
+        }
+
+        public void ResetSystem()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

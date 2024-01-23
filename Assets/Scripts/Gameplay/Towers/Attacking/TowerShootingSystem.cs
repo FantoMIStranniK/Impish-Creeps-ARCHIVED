@@ -1,104 +1,111 @@
-using Unity.Burst;
-using Unity.Collections;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
-using Unity.Physics;
+using Unity.Collections;
 using Unity.Transforms;
-using UnityEngine;
+using Unity.Physics;
+using Unity.Burst;
+using Unity.Jobs;
+using GC.Gameplay.Status;
 
-[BurstCompile]
-public partial struct TowerShootingSystem : ISystem
+namespace GC.Gameplay.Towers.Attack
 {
-    private ComponentLookup<TargetComponent> targetComponentLookup;
-    private ComponentLookup<LocalTransform> localTransformLookup;
-    private EntityStorageInfoLookup entityStorageInfoLookup;
-
     [BurstCompile]
-    public void OnCreate(ref SystemState state)
+    public partial struct TowerShootingSystem : ISystem
     {
-        targetComponentLookup = state.GetComponentLookup<TargetComponent>();
-        localTransformLookup = state.GetComponentLookup<LocalTransform>();
-        entityStorageInfoLookup = state.GetEntityStorageInfoLookup();
+        private ComponentLookup<TargetComponent> targetComponentLookup;
+        private ComponentLookup<LocalTransform> localTransformLookup;
+        private EntityStorageInfoLookup entityStorageInfoLookup;
+
+        [BurstCompile]
+        public void OnCreate(ref SystemState state)
+        {
+            targetComponentLookup = state.GetComponentLookup<TargetComponent>();
+            localTransformLookup = state.GetComponentLookup<LocalTransform>();
+            entityStorageInfoLookup = state.GetEntityStorageInfoLookup();
+        }
+
+        [BurstCompile]
+        public void OnDestroy(ref SystemState state) { }
+
+        [BurstCompile]
+        public void OnUpdate(ref SystemState state)
+        {
+            EntityCommandBuffer entityCommandBuffer =
+                SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
+
+            targetComponentLookup.Update(ref state);
+            localTransformLookup.Update(ref state);
+            entityStorageInfoLookup.Update(ref state);
+
+            JobHandle shootingJobHandle = new ShootingJob
+            {
+                deltaTime = SystemAPI.Time.DeltaTime,
+
+                entityCommandBuffer = entityCommandBuffer,
+
+                targetComponentLookup = targetComponentLookup,
+                localTransformLookup = localTransformLookup,
+                entityStorageInfoLookup = entityStorageInfoLookup,
+            }.Schedule(state.Dependency);
+
+            shootingJobHandle.Complete();
+        }
     }
 
     [BurstCompile]
-    public void OnDestroy(ref SystemState state) { }
-
-    [BurstCompile]
-    public void OnUpdate(ref SystemState state)
+    public partial struct ShootingJob : IJobEntity
     {
-        EntityCommandBuffer entityCommandBuffer =
-            SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
-        
-        targetComponentLookup.Update(ref state);
-        localTransformLookup.Update(ref state);
-        entityStorageInfoLookup.Update(ref state);
+        public EntityCommandBuffer entityCommandBuffer;
 
-        JobHandle shootingJobHandle = new ShootingJob
+        public ComponentLookup<TargetComponent> targetComponentLookup;
+        [ReadOnly] public ComponentLookup<LocalTransform> localTransformLookup;
+        //[ReadOnly] public ComponentLookup<TowerRadiusComponent> towerRadiusComponentLookup;
+        [ReadOnly] public EntityStorageInfoLookup entityStorageInfoLookup;
+
+        public float deltaTime;
+
+        [BurstCompile]
+        public void Execute(ref TowerShooterComponent shooter, Parent parent, Entity entity)
         {
-            deltaTime = SystemAPI.Time.DeltaTime,
+            shooter.attackTimer += deltaTime;
 
-            entityCommandBuffer = entityCommandBuffer,
+            if (shooter.attackTimer < shooter.attackTime)
+                return;
 
-            targetComponentLookup = targetComponentLookup,
-            localTransformLookup = localTransformLookup,
-            entityStorageInfoLookup = entityStorageInfoLookup,
-        }.Schedule(state.Dependency);
+            RefRO<TargetComponent> towerTarget = targetComponentLookup.GetRefRO(parent.Value);
 
-        shootingJobHandle.Complete();
-    }
-}
+            if (towerTarget.ValueRO.enemy == Entity.Null || !entityStorageInfoLookup.Exists(towerTarget.ValueRO.enemy))
+                return;
 
-[BurstCompile]
-public partial struct ShootingJob : IJobEntity
-{
-    public EntityCommandBuffer entityCommandBuffer;
+            shooter.attackTimer = 0;
 
-    public ComponentLookup<TargetComponent> targetComponentLookup;
-    [ReadOnly] public ComponentLookup<LocalTransform> localTransformLookup;
-    //[ReadOnly] public ComponentLookup<TowerRadiusComponent> towerRadiusComponentLookup;
-    [ReadOnly] public EntityStorageInfoLookup entityStorageInfoLookup;
+            RefRO<LocalTransform> towerLocalTransform = localTransformLookup.GetRefRO(parent.Value);
+            RefRO<LocalTransform> towerTargetTransform = localTransformLookup.GetRefRO(towerTarget.ValueRO.enemy);
 
-    public float deltaTime;
+            Entity spawnedProjectile = entityCommandBuffer.Instantiate(shooter.projectile);
 
-    [BurstCompile]
-    public void Execute(ref TowerShooterComponent shooter, Parent parent, Entity entity)
-    {
-        shooter.attackTimer += deltaTime;
+            entityCommandBuffer.SetComponent(spawnedProjectile, new LocalTransform
+            {
+                Position = towerLocalTransform.ValueRO.Position,
+                Rotation = quaternion.LookRotation(towerTargetTransform.ValueRO.Position - towerLocalTransform.ValueRO.Position, new float3(0, 1, 0)),
+                Scale = 1,
+            });
 
-        if (shooter.attackTimer < shooter.attackTime)
-            return;
+            entityCommandBuffer.SetComponent(spawnedProjectile, new PhysicsVelocity
+            {
+                Linear = math.normalize(towerTargetTransform.ValueRO.Position - towerLocalTransform.ValueRO.Position) * shooter.speed,
+            });
 
-        RefRO<TargetComponent> towerTarget = targetComponentLookup.GetRefRO(parent.Value);
+            entityCommandBuffer.SetComponent(spawnedProjectile, new DamageComponent
+            {
+                damage = shooter.damage,
+                pierce = shooter.pierce,
+            });
 
-        if (towerTarget.ValueRO.enemy == Entity.Null || !entityStorageInfoLookup.Exists(towerTarget.ValueRO.enemy))
-            return;
-
-        shooter.attackTimer = 0;
-
-        RefRO<LocalTransform> towerLocalTransform = localTransformLookup.GetRefRO(parent.Value);
-        RefRO<LocalTransform> towerTargetTransform = localTransformLookup.GetRefRO(towerTarget.ValueRO.enemy);
-
-        Entity spawnedProjectile = entityCommandBuffer.Instantiate(shooter.projectile);
-        entityCommandBuffer.SetComponent(spawnedProjectile, new LocalTransform
-        {
-            Position = towerLocalTransform.ValueRO.Position,
-            Rotation = quaternion.LookRotation(towerTargetTransform.ValueRO.Position - towerLocalTransform.ValueRO.Position, new float3(0, 1, 0)),
-            Scale = 1,
-        });
-        entityCommandBuffer.SetComponent(spawnedProjectile, new PhysicsVelocity
-        {
-            Linear = math.normalize(towerTargetTransform.ValueRO.Position - towerLocalTransform.ValueRO.Position) * shooter.speed,
-        });
-        entityCommandBuffer.SetComponent(spawnedProjectile, new DamageComponent
-        {
-            damage = shooter.damage,
-            pierce = shooter.pierce,
-        });
-        entityCommandBuffer.SetComponent(spawnedProjectile, new TemporaryComponent
-        {
-            lifeTime = shooter.lifeTime,
-        });
+            entityCommandBuffer.SetComponent(spawnedProjectile, new TemporaryComponent
+            {
+                lifeTime = shooter.lifeTime,
+            });
+        }
     }
 }

@@ -1,7 +1,10 @@
 using Unity.Entities;
 
-[InternalBufferCapacity(2)]
-public struct HitList : IBufferElementData
+namespace GC.Gameplay.Towers.Projectiles
 {
-    public Entity entity;
+    [InternalBufferCapacity(2)]
+    public struct HitList : IBufferElementData
+    {
+        public Entity entity;
+    }
 }

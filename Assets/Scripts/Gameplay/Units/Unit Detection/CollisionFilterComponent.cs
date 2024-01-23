@@ -1,8 +1,11 @@
 using Unity.Entities;
 using Unity.Physics.Authoring;
 
-public struct CollisionFilterComponent : IComponentData
+namespace GC.Gameplay.Units.Collisions
 {
-    public PhysicsCategoryTags friendly;
-    public PhysicsCategoryTags enemy;
+    public struct CollisionFilterComponent : IComponentData
+    {
+        public PhysicsCategoryTags friendly;
+        public PhysicsCategoryTags enemy;
+    }
 }

@@ -1,7 +1,7 @@
 using Unity.Collections;
 using Unity.Mathematics;
 
-namespace GC.SplineFramework
+namespace GC.Gameplay.SplineFramework.Model
 {
     public struct SplineSegmentData
     {

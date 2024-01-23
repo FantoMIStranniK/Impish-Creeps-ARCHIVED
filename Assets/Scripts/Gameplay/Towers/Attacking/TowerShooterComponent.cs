@@ -1,18 +1,21 @@
 using Unity.Entities;
 
-public struct TowerShooterComponent : IComponentData
+namespace GC.Gameplay.Towers.Attack
 {
-    public Entity projectile;
+    public struct TowerShooterComponent : IComponentData
+    {
+        public Entity projectile;
 
-    public ushort projectileCount;
+        public ushort projectileCount;
 
-    public float attackTime;
-    public float attackTimer;
+        public float attackTime;
+        public float attackTimer;
 
-    public int damage;
-    public ushort pierce;
+        public int damage;
+        public ushort pierce;
 
-    public float lifeTime;
+        public float lifeTime;
 
-    public float speed;
+        public float speed;
+    }
 }

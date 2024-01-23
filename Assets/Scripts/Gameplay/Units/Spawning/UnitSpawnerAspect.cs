@@ -1,49 +1,51 @@
-using GC.SplineFramework;
-using System.Security.Principal;
-using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Burst;
 using Unity.Transforms;
-using UnityEngine;
+using GC.Gameplay.Units.Movement;
+using GC.Gameplay.SplineFramework;
 
-[BurstCompile]
-public readonly partial struct UnitSpawnerAspect : IAspect
+namespace GC.Gameplay.Units.Spawn
 {
-    private readonly Entity entity;
-
-    private readonly RefRW<UnitSpawnTimeComponent> spawnTime;
-
     [BurstCompile]
-    public void UpdateSpawnTimer(float deltaTime)
+    public readonly partial struct UnitSpawnerAspect : IAspect
     {
-        spawnTime.ValueRW.spawnTimer += deltaTime;
+        private readonly Entity entity;
 
-        if (spawnTime.ValueRO.spawnTimer < spawnTime.ValueRO.spawnInterval)
-            return;
+        private readonly RefRW<UnitSpawnTimeComponent> spawnTime;
 
-        spawnTime.ValueRW.spawnTimer = 0;
-        spawnTime.ValueRW.canSpawn = true;
-    }
-    
-    [BurstCompile]
-    public void Spawn(EntityCommandBuffer entityCommandBuffer, SplineContainer splineContainer, DynamicBuffer<UnitDeckElement> unitBuffer, int unitIndex)
-    {
-        if (!spawnTime.ValueRW.canSpawn)
-            return;
-
-        //Debug.Log($"spawn {unitDeck.deck[0]}");
-        //Entity unit = unitDeck.deck[0];
-
-        var unitDeckElement = unitBuffer[unitIndex];
-
-        Entity spawnedEntity = entityCommandBuffer.Instantiate(unitDeckElement.unit);//]);
-        entityCommandBuffer.SetComponent(spawnedEntity, new LocalTransform
+        [BurstCompile]
+        public void UpdateSpawnTimer(float deltaTime)
         {
-            Position = splineContainer.GetSplineByIndex(0).SplineSegments[0].StartPoint,
-            Rotation = quaternion.identity,
-            Scale = 1,
-        });
+            spawnTime.ValueRW.spawnTimer += deltaTime;
 
-        spawnTime.ValueRW.canSpawn = false;
+            if (spawnTime.ValueRO.spawnTimer < spawnTime.ValueRO.spawnInterval)
+                return;
+
+            spawnTime.ValueRW.spawnTimer = 0;
+            spawnTime.ValueRW.canSpawn = true;
+        }
+
+        [BurstCompile]
+        public void Spawn(EntityCommandBuffer entityCommandBuffer, SplineContainer splineContainer, DynamicBuffer<UnitDeckElement> unitBuffer, int unitIndex)
+        {
+            if (!spawnTime.ValueRW.canSpawn)
+                return;
+
+            //Debug.Log($"spawn {unitDeck.deck[0]}");
+            //Entity unit = unitDeck.deck[0];
+
+            var unitDeckElement = unitBuffer[unitIndex];
+
+            Entity spawnedEntity = entityCommandBuffer.Instantiate(unitDeckElement.unit);//]);
+            entityCommandBuffer.SetComponent(spawnedEntity, new LocalTransform
+            {
+                Position = splineContainer.GetSplineByIndex(0).SplineSegments[0].StartPoint,
+                Rotation = quaternion.identity,
+                Scale = 1,
+            });
+
+            spawnTime.ValueRW.canSpawn = false;
+        }
     }
 }

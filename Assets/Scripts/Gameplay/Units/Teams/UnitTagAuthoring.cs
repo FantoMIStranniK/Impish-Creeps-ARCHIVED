@@ -1,15 +1,16 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-public class UnitTagAuthoring : MonoBehaviour
+namespace GC.Gameplay.Units.Teams
 {
-}
+    public class UnitTagAuthoring : MonoBehaviour { }
 
-public class UnitTagBaker : Baker<UnitTagAuthoring>
-{
-    public override void Bake(UnitTagAuthoring authoring)
+    public class UnitTagBaker : Baker<UnitTagAuthoring>
     {
-        Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new UnitTag());
+        public override void Bake(UnitTagAuthoring authoring)
+        {
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new UnitTag());
+        }
     }
 }

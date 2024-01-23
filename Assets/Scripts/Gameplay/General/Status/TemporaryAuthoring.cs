@@ -1,20 +1,22 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
-public class TemporaryAuthoring : MonoBehaviour
+namespace GC.Gameplay.Status
 {
-    public float lifeTime;
-}
-
-public class TemporaryBaker : Baker<TemporaryAuthoring>
-{
-    public override void Bake(TemporaryAuthoring authoring)
+    public class TemporaryAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.None);
-        AddComponent(entity, new TemporaryComponent
+        public float lifeTime;
+    }
+
+    public class TemporaryBaker : Baker<TemporaryAuthoring>
+    {
+        public override void Bake(TemporaryAuthoring authoring)
         {
-            lifeTime = authoring.lifeTime,
-        });
+            Entity entity = GetEntity(TransformUsageFlags.None);
+            AddComponent(entity, new TemporaryComponent
+            {
+                lifeTime = authoring.lifeTime,
+            });
+        }
     }
 }
-

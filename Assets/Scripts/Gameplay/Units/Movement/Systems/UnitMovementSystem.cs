@@ -1,8 +1,8 @@
-using GC.SplineFramework;
-using Unity.Burst;
 using Unity.Entities;
+using Unity.Burst;
+using GC.Gameplay.SplineFramework;
 
-namespace GC.Units.Movement
+namespace GC.Gameplay.Units.Movement
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     [BurstCompile]

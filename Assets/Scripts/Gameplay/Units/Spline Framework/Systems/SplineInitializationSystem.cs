@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Collections;
 using GC.Map;
 
-namespace GC.SplineFramework
+namespace GC.Gameplay.SplineFramework
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     [UpdateAfter(typeof(GlobalSpawnerSystem))]

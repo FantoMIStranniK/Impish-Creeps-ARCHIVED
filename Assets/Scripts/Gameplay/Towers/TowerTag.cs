@@ -1,5 +1,6 @@
 using Unity.Entities;
 
-public struct TowerTag : IComponentData
+namespace GC.Gameplay.Towers
 {
+    public struct TowerTag : IComponentData { }
 }

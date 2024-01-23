@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Mathematics;
 using UnityEngine;
-using GC.SplineFramework;
+using Unity.Entities;
+using Unity.Collections;
+using Unity.Mathematics;
+using GC.Gameplay.SplineFramework.Model;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,7 +11,7 @@ using UnityEditor.EditorTools;
 using UnityEditor.ShortcutManagement;
 #endif
 
-namespace GC.SplineMovement
+namespace GC.Gameplay.SplineFramework
 {
     [ChunkSerializable]
     public class SplineAuthoring : MonoBehaviour
@@ -145,8 +145,6 @@ namespace GC.SplineMovement
         #endregion
     }
 
-
-
     public class SplineBaker : Baker<SplineAuthoring>
     {
         public override void Bake(SplineAuthoring authoring)
@@ -166,7 +164,6 @@ namespace GC.SplineMovement
             AddComponent(entity, spline);
         }
     }
-
 
 #region SplineEditor
 #if UNITY_EDITOR
@@ -337,5 +334,4 @@ namespace GC.SplineMovement
     }
 #endif
 #endregion
-
 }

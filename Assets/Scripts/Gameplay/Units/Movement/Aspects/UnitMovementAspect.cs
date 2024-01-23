@@ -1,9 +1,9 @@
 using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
-using GC.SplineFramework;
+using GC.Gameplay.SplineFramework;
 
-namespace GC.Units.Movement
+namespace GC.Gameplay.Units.Movement
 {
     public readonly partial struct UnitMovementAspect : IAspect
     {

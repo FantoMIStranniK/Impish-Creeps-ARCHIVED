@@ -1,29 +1,33 @@
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
+using Unity.Collections;
 
-public class TowerDeckAuthoring : MonoBehaviour
+namespace GC.Gameplay.Towers.Deck
 {
-    public List<GameObject> deck = new List<GameObject>(6);
-}
 
-public class TowerDeckBaker : Baker<TowerDeckAuthoring>
-{
-    public override void Bake(TowerDeckAuthoring authoring)
+    public class TowerDeckAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.None);
+        public List<GameObject> deck = new List<GameObject>(6);
+    }
 
-        NativeArray<TowerDeckElement> deckArr = new NativeArray<TowerDeckElement>(6, Allocator.Persistent);
-        for (int i = 0; i < authoring.deck.Count; i++)
+    public class TowerDeckBaker : Baker<TowerDeckAuthoring>
+    {
+        public override void Bake(TowerDeckAuthoring authoring)
         {
-            TowerDeckElement elm = deckArr[i];
-            elm.tower = GetEntity(authoring.deck[i], TransformUsageFlags.Dynamic);
-            deckArr[i] = elm;
+            Entity entity = GetEntity(TransformUsageFlags.None);
+
+            NativeArray<TowerDeckElement> deckArr = new NativeArray<TowerDeckElement>(6, Allocator.Persistent);
+
+            for (int i = 0; i < authoring.deck.Count; i++)
+            {
+                TowerDeckElement elm = deckArr[i];
+                elm.tower = GetEntity(authoring.deck[i], TransformUsageFlags.Dynamic);
+                deckArr[i] = elm;
+            }
+
+            AddComponent(entity, new TowerDeck());
+            AddBuffer<TowerDeckElement>(entity).AddRange(deckArr);
         }
-
-
-        AddComponent(entity, new TowerDeck());
-        AddBuffer<TowerDeckElement>(entity).AddRange(deckArr);
     }
 }

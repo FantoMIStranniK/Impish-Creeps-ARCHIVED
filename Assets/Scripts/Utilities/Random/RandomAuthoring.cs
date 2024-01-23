@@ -1,16 +1,19 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class RandomAuthoring : MonoBehaviour { }
-
-public class RandomBaker : Baker<RandomAuthoring>
+namespace GC.Utilities
 {
-    public override void Bake(RandomAuthoring authoring)
+    public class RandomAuthoring : MonoBehaviour { }
+
+    public class RandomBaker : Baker<RandomAuthoring>
     {
-        Entity entity = GetEntity(TransformUsageFlags.None);
-        AddComponent(entity, new RandomComponent
+        public override void Bake(RandomAuthoring authoring)
         {
-            random = new Unity.Mathematics.Random(1),
-        });
+            Entity entity = GetEntity(TransformUsageFlags.None);
+            AddComponent(entity, new RandomComponent
+            {
+                random = new Unity.Mathematics.Random(1),
+            });
+        }
     }
 }

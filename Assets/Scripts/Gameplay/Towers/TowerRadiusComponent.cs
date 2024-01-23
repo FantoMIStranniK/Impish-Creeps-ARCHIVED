@@ -1,6 +1,9 @@
 using Unity.Entities;
 
-public struct TowerRadiusComponent : IComponentData
+namespace GC.Gameplay.Towers
 {
-    public float radius;    
+    public struct TowerRadiusComponent : IComponentData
+    {
+        public float radius;
+    }
 }

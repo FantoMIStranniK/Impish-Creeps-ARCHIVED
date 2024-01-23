@@ -1,43 +1,46 @@
-using Unity.Burst;
 using Unity.Entities;
-using Unity.Jobs;
+using Unity.Burst;
+using GC.Gameplay.Units.Teams;
 
-[BurstCompile]
-public partial struct EnemyUnitDetectionSystem : ISystem
+namespace GC.Gameplay.Units.Collisions
 {
     [BurstCompile]
-    public void OnCreate(ref SystemState state) { }
-
-    [BurstCompile]
-    public void OnDestroy(ref SystemState state) { }
-
-    [BurstCompile]
-    public void OnUpdate(ref SystemState state)
+    public partial struct EnemyUnitDetectionSystem : ISystem
     {
-        float deltaTime = SystemAPI.Time.DeltaTime;
+        [BurstCompile]
+        public void OnCreate(ref SystemState state) { }
 
-        //foreach ((CollisionFilterComponent detectionFilter, TeamComponent team) in SystemAPI.Query<CollisionFilterComponent, TeamComponent>())
-        //{
-        //    JobHandle handle = new BuildDetectionBounds
-        //    {
-        //        detectionFilter = detectionFilter,
-        //        team = team,
-        //    }.ScheduleParallel(state.Dependency);
+        [BurstCompile]
+        public void OnDestroy(ref SystemState state) { }
 
-        //    handle.Complete();
-        //}
+        [BurstCompile]
+        public void OnUpdate(ref SystemState state)
+        {
+            float deltaTime = SystemAPI.Time.DeltaTime;
+
+            //foreach ((CollisionFilterComponent detectionFilter, TeamComponent team) in SystemAPI.Query<CollisionFilterComponent, TeamComponent>())
+            //{
+            //    JobHandle handle = new BuildDetectionBounds
+            //    {
+            //        detectionFilter = detectionFilter,
+            //        team = team,
+            //    }.ScheduleParallel(state.Dependency);
+
+            //    handle.Complete();
+            //}
+        }
     }
-}
-
-[BurstCompile]
-public partial struct BuildDetectionBounds : IJobEntity
-{
-    public CollisionFilterComponent detectionFilter;
-    public TeamComponent team;
 
     [BurstCompile]
-    public void Execute(Unity.Physics.Aspects.ColliderAspect collider, UnitTag tag, TeamComponent team)
+    public partial struct BuildDetectionBounds : IJobEntity
     {
+        public CollisionFilterComponent detectionFilter;
+        public TeamComponent team;
 
+        [BurstCompile]
+        public void Execute(Unity.Physics.Aspects.ColliderAspect collider, UnitTag tag, TeamComponent team)
+        {
+
+        }
     }
 }

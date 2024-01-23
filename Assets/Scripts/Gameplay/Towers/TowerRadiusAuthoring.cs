@@ -1,48 +1,51 @@
-using Unity.Entities;
-using UnityEditor.EditorTools;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
+using UnityEditor.EditorTools;
+using Unity.Entities;
 
-public class TowerRadiusAuthoring : MonoBehaviour
+namespace GC.Gameplay.Towers
 {
-    public float radius;
-}
-
-public class TowerRadiusBaker : Baker<TowerRadiusAuthoring>
-{
-    public override void Bake(TowerRadiusAuthoring authoring)
+    public class TowerRadiusAuthoring : MonoBehaviour
     {
-        Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new TowerRadiusComponent
-        {
-            radius = authoring.radius,
-        });
+        public float radius;
     }
-}
 
-#region ShooterEditor
-#if UNITY_EDITOR
-
-[EditorTool("Tower Radius Tool", typeof(TowerRadiusAuthoring))]
-public class TowerRadiusTool : EditorTool, IDrawSelectedHandles
-{
-    public void OnDrawHandles()
+    public class TowerRadiusBaker : Baker<TowerRadiusAuthoring>
     {
-        TowerRadiusAuthoring radius = target as TowerRadiusAuthoring;
-
-        EditorGUI.BeginChangeCheck();
-
-        Handles.color = new Color(1, 1, 1, 0.5f);
-        float newSize = Handles.RadiusHandle(Quaternion.identity, radius.transform.position, radius.radius);
-
-        if (EditorGUI.EndChangeCheck())
+        public override void Bake(TowerRadiusAuthoring authoring)
         {
-            Undo.RecordObject(target, "Tower Radius");
-
-            radius.radius = newSize;
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new TowerRadiusComponent
+            {
+                radius = authoring.radius,
+            });
         }
     }
-}
+
+    #region ShooterEditor
+#if UNITY_EDITOR
+
+    [EditorTool("Tower Radius Tool", typeof(TowerRadiusAuthoring))]
+    public class TowerRadiusTool : EditorTool, IDrawSelectedHandles
+    {
+        public void OnDrawHandles()
+        {
+            TowerRadiusAuthoring radius = target as TowerRadiusAuthoring;
+
+            EditorGUI.BeginChangeCheck();
+
+            Handles.color = new Color(1, 1, 1, 0.5f);
+            float newSize = Handles.RadiusHandle(Quaternion.identity, radius.transform.position, radius.radius);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(target, "Tower Radius");
+
+                radius.radius = newSize;
+            }
+        }
+    }
 
 #endif
-#endregion
+    #endregion
+}

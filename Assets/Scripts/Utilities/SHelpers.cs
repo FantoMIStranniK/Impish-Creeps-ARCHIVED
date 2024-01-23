@@ -1,13 +1,16 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-public static class SHelpers // StaticHelpers
+namespace GC.Utilities
 {
-    public static float3 GetMouseWorldPos(Vector3 mouseScreenPosition)
+    public static class SHelpers // StaticHelpers
     {
-        if (Camera.main == null)
-            return new Vector3(0, -1000, 0);
+        public static float3 GetMouseWorldPos(Vector3 mouseScreenPosition)
+        {
+            if (Camera.main == null)
+                return new Vector3(0, -1000, 0);
 
-        return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+            return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+        }
     }
 }

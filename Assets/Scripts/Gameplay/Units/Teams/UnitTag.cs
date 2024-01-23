@@ -1,5 +1,6 @@
 using Unity.Entities;
 
-public struct UnitTag : IComponentData
+namespace GC.Gameplay.Units.Teams
 {
+    public struct UnitTag : IComponentData { }
 }
