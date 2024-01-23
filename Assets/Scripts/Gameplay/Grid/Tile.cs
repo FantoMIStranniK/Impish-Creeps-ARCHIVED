@@ -1,0 +1,27 @@
+using System;
+using Unity.Mathematics;
+
+public enum TileState
+{
+    Vacant,
+    Occupied,
+    Unavailable,
+}
+
+[Serializable]
+public struct Tile
+{
+    public TileState State;
+
+    public int2 PositionInGrid;
+    public float2 PositionInWorld;
+    public float2 TileCenterPosition;
+
+    public Tile(TileState state, int2 indexes, float2 position, float2 centerPosition)
+    {
+        State = state;
+        PositionInGrid = indexes;
+        PositionInWorld = position;
+        TileCenterPosition = centerPosition;
+    }
+}

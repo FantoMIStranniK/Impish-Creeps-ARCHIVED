@@ -13,6 +13,7 @@ using UnityEditor.ShortcutManagement;
 
 namespace GC.SplineMovement
 {
+    [ChunkSerializable]
     public class SplineAuthoring : MonoBehaviour
     {
         [Header("Spline")]
@@ -91,7 +92,7 @@ namespace GC.SplineMovement
             Gizmos.color = splineColor;
             Gizmos.DrawCube(segment.StartPoint, cubeSize);
         }
-        //
+
         private void DrawCubicSpline(SplineSegment segment)
         {
             Vector3 previousPoint = segment.StartPoint;
