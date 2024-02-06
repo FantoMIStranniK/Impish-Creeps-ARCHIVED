@@ -1,4 +1,4 @@
-using System;
+using Unity.Entities;
 using Unity.Mathematics;
 
 namespace GC.Gameplay.Grid
@@ -10,8 +10,8 @@ namespace GC.Gameplay.Grid
         Unavailable,
     }
 
-    [Serializable]
-    public struct Tile
+    [ChunkSerializable]
+    public struct EditorTile
     {
         public TileState State;
 
@@ -19,7 +19,7 @@ namespace GC.Gameplay.Grid
         public float2 PositionInWorld;
         public float2 TileCenterPosition;
 
-        public Tile(TileState state, int2 indexes, float2 position, float2 centerPosition)
+        public EditorTile(TileState state, int2 indexes, float2 position, float2 centerPosition)
         {
             State = state;
             PositionInGrid = indexes;

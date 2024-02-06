@@ -3,7 +3,7 @@ using Unity.Entities;
 
 namespace GC.Gameplay.Status
 {
-    [UpdateAfter(typeof(LateSimulationSystemGroup))]
+    [UpdateInGroup(typeof(LateSimulationSystemGroup), OrderLast = true)]
     [BurstCompile]
     public partial struct DisposingSystem : ISystem
     {
@@ -26,6 +26,6 @@ namespace GC.Gameplay.Status
 
             //ecb.Playback(state.EntityManager);
             //ecb.Dispose();
-        }//
+        }
     }
 }

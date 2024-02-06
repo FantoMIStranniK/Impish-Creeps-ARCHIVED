@@ -6,6 +6,7 @@ using Unity.Collections;
 using GC.SceneManagement;
 using GC.Gameplay.SplineFramework.Model;
 using GC.Gameplay.SplineFramework;
+using GC.Gameplay.Grid;
 
 namespace GC.Map
 {
@@ -79,6 +80,8 @@ namespace GC.Map
             OnMapCreationFinished.Invoke();
         }
 
+        #region Spline
+
         private void CreateSplines()
         {
             if (MapPrefab.MapContainer.Splines == null)
@@ -113,10 +116,57 @@ namespace GC.Map
             });
         }
 
+        #endregion
+
+        #region Grid
+
         private void CreateGrid()
         {
+            if (MapPrefab.MapContainer.Grid == null)
+                return;
 
+            TileGrid tileGrid;
+
+            if (!MapPrefab.MapContainer.Grid.TryGetComponent(out tileGrid))
+                return;
+
+            SetUpGrid(tileGrid);
         }
+
+        private void SetUpGrid(TileGrid tileGrid)
+        {
+            TileGridComponent tileGridComponent = new TileGridComponent()
+            {
+                GridOrigin = tileGrid.StartingPoint,
+                GridHeight = tileGrid.GridHeight,
+                GridWidth = tileGrid.GridWidth,
+                TileSize = tileGrid.TileSize
+            };
+
+            ConvertTiles(tileGrid, out tileGridComponent);
+
+            Entity entity = CreateEntityFromType(typeof(TileGridComponent));
+
+            _entityManager.SetComponentData(entity, tileGridComponent);
+        }
+
+        private void ConvertTiles(TileGrid tileGrid, out TileGridComponent tileGridComponent)
+        {
+            var tiles = tileGrid.GridTiles;
+
+            tileGridComponent = new TileGridComponent();
+
+            tileGridComponent.Tiles = new NativeArray<Tile>(tiles.Length, Allocator.Persistent);
+
+            for (int i = 0; i < tileGridComponent.Tiles.Length; i++)
+            {
+                var tile = new Tile(tiles[i]);
+
+                tileGridComponent.Tiles[i] = tile;
+            }
+        }
+
+        #endregion
 
         private Entity CreateEntityFromType(params ComponentType[] type)
         {

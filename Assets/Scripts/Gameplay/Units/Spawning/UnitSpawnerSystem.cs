@@ -6,7 +6,7 @@ using GC.Gameplay.SplineFramework;
 namespace GC.Gameplay.Units.Spawn
 {
     [BurstCompile]
-    [UpdateAfter(typeof(SimulationSystemGroup))]
+    [UpdateBefore(typeof(LateSimulationSystemGroup))]
     public partial struct UnitSpawnerSystem : ISystem
     {
         private BufferLookup<UnitDeckElement> unitDeckIndexLookup;

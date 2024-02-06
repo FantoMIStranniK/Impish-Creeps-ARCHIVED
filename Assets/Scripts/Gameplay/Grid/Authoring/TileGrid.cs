@@ -56,17 +56,17 @@ namespace GC.Gameplay.Grid
         public SplineAuthoring[] Splines;
 
         [SerializeField]
-        public Tile[] GridTiles = new Tile[0];
+        public EditorTile[] GridTiles = new EditorTile[0];
 
         #region Baked values
 
         [SerializeField]
-        private int bakedWidth;
+        public int BakedWidth;
         [SerializeField]
         private int bakedHeight;
 
         [SerializeField]
-        private float bakedTileSize;
+        public float bakedTileSize;
         [SerializeField]
         private float bakedTileRadius;
 
@@ -90,18 +90,18 @@ namespace GC.Gameplay.Grid
         [ExecuteInEditMode]
         private void GenerateGrid()
         {
-            GridTiles = new Tile[bakedWidth * bakedHeight];
+            GridTiles = new EditorTile[BakedWidth * bakedHeight];
 
             var currentPoint = StartingPoint;
 
             for (int i = 0; i < bakedHeight; i++)
             {
-                for (int j = 0; j < bakedWidth; j++)
+                for (int j = 0; j < BakedWidth; j++)
                 {
                     var centerX = currentPoint.x + bakedTileSize / 2f * (int)HorizontalDirection;
                     var centerY = currentPoint.y + bakedTileSize / 2f * (int)VerticalDirection;
 
-                    Tile tile = new Tile(TileState.Vacant, new int2(j, i), currentPoint, new float2(centerX, centerY));
+                    EditorTile tile = new EditorTile(TileState.Vacant, new int2(j, i), currentPoint, new float2(centerX, centerY));
 
                     GridTiles[GetFlatArrayIndex(j, i)] = tile;
 
@@ -116,7 +116,7 @@ namespace GC.Gameplay.Grid
         [ExecuteInEditMode]
         private void SetBakedValues()
         {
-            bakedWidth = GridWidth;
+            BakedWidth = GridWidth;
             bakedHeight = GridHeight;
 
             bakedTileSize = TileSize;
@@ -136,7 +136,7 @@ namespace GC.Gameplay.Grid
         {
             for (int i = 0; i < bakedHeight; i++)
             {
-                for (int j = 0; j < bakedWidth; j++)
+                for (int j = 0; j < BakedWidth; j++)
                 {
                     GridTiles[GetFlatArrayIndex(j, i)].State = TileState.Vacant;
 
@@ -148,7 +148,7 @@ namespace GC.Gameplay.Grid
         }
 
         [ExecuteInEditMode]
-        private void BakeCollisionsForSpline(ref Tile tile)
+        private void BakeCollisionsForSpline(ref EditorTile tile)
         {
             foreach (var spline in Splines)
             {
@@ -187,10 +187,10 @@ namespace GC.Gameplay.Grid
 
         [ExecuteInEditMode]
         private int GetFlatArrayIndex(int x, int y)
-            => x + y * bakedWidth;
+            => x + y * BakedWidth;
 
         [ExecuteInEditMode]
-        private void BakeCollisionForTerrain(ref Tile tile)
+        private void BakeCollisionForTerrain(ref EditorTile tile)
         {
             var overlapSize = new Vector3(bakedTileSize, bakedTileSize, bakedTileSize) * 0.5f * OverlapBoxModifier;
 
@@ -257,7 +257,7 @@ namespace GC.Gameplay.Grid
 
         private bool IsLastPointInRow(float2 positionInGrid)
         {
-            if (positionInGrid.x == bakedWidth)
+            if (positionInGrid.x == BakedWidth)
                 return true;
 
             if (positionInGrid.y == bakedHeight)
