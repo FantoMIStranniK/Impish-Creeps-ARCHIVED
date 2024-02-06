@@ -34,7 +34,7 @@ namespace GC.Gameplay.SplineFramework
                 splines.Add(spline);
             }
 
-            splineContainer.ValueRW.Splines = splines.AsArray();
+            splineContainer.ValueRW.Splines = splines;
 
             splineContainer.ValueRW.IsSetUp = true;
         }

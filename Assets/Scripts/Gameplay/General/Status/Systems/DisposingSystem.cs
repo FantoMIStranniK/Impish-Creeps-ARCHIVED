@@ -1,4 +1,5 @@
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 
 namespace GC.Gameplay.Status
@@ -15,17 +16,17 @@ namespace GC.Gameplay.Status
         [BurstCompile]
         void OnUpdate(ref SystemState state)
         {
-            EntityCommandBuffer ecb =
-                SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
+            //EntityCommandBuffer ecb =
+                //SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 
-            //EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
             foreach ((IsDisposingComponent isDisposing, Entity entity) in SystemAPI.Query<IsDisposingComponent>().WithEntityAccess())
             {
                 ecb.DestroyEntity(entity);
             }
 
-            //ecb.Playback(state.EntityManager);
-            //ecb.Dispose();
-        }
+            ecb.Playback(state.EntityManager);
+            ecb.Dispose();
+        }//
     }
 }
