@@ -1,7 +1,6 @@
 using Unity.Entities;
 using Unity.Collections;
 using Unity.Mathematics;
-using System.Diagnostics;
 
 namespace GC.Gameplay.Grid
 {
