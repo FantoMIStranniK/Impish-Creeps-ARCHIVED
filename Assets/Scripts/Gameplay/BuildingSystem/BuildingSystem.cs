@@ -98,23 +98,36 @@ public partial class BuildingSystem : SystemBase
         EntityCommandBuffer ecb =
             SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
 
-        RefRW<TileGridComponent> grid = SystemAPI.GetSingletonRW<TileGridComponent>();
-        RefRW<TowerDeck> deck = SystemAPI.GetSingletonRW<TowerDeck>();
+        RefRW<TileGridComponent> grid;
+
+        if (!SystemAPI.TryGetSingletonRW(out grid))
+            return;
+
+        RefRW<TowerDeck> deck;
+
+        if (!SystemAPI.TryGetSingletonRW(out deck))
+            return;
+
         DynamicBuffer<TowerDeckElement> deckBuffer = SystemAPI.GetSingletonBuffer<TowerDeckElement>(true);
 
         Vector2 mousePos = controls.Towers.MousePosition.ReadValue<Vector2>();
         float3 mouseWorldPos = SHelpers.GetMouseWorldPos(mousePos);
 
-        Unity.Physics.RaycastHit hit = CastRay(mouseWorldPos, mouseWorldPos + ((float3)camera.transform.forward * 50));
+        Unity.Physics.RaycastHit hit = CastRay(mouseWorldPos, mouseWorldPos + ((float3)Camera.main.transform.forward * 50));
 
-        if (grid.ValueRO.TileIsAvailable(hit.Position))
+        if (!grid.ValueRO.TileIsAvailable(hit.Position))
+            return;
+
+        int2 indexes;
+
+        if (!grid.ValueRO.TryGetIndexesByWorldPosition(hit.Position, out indexes))
             return;
 
         Entity newTower = ecb.Instantiate(deckBuffer[deck.ValueRO.selectedTower].tower);
 
-        grid.ValueRO.SetTileState(hit.Position, TileState.Occupied);
+        grid.ValueRO.SetTileState(indexes, TileState.Occupied);
 
-        float2 newTowerPos = grid.ValueRO.GetTile(hit.Position).CenterPosition;
+        float2 newTowerPos = grid.ValueRO.GetTile(indexes).CenterPosition;
 
         ecb.SetComponent(newTower, new LocalTransform
         {

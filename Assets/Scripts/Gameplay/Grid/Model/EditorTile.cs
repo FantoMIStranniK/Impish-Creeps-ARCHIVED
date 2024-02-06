@@ -1,4 +1,4 @@
-using Unity.Entities;
+using System;
 using Unity.Mathematics;
 
 namespace GC.Gameplay.Grid
@@ -10,7 +10,7 @@ namespace GC.Gameplay.Grid
         Unavailable,
     }
 
-    [ChunkSerializable]
+    [Serializable]
     public struct EditorTile
     {
         public TileState State;

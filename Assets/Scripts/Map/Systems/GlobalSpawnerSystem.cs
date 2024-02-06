@@ -135,26 +135,25 @@ namespace GC.Map
 
         private void SetUpGrid(TileGrid tileGrid)
         {
-            TileGridComponent tileGridComponent = new TileGridComponent()
-            {
-                GridOrigin = tileGrid.StartingPoint,
-                GridHeight = tileGrid.GridHeight,
-                GridWidth = tileGrid.GridWidth,
-                TileSize = tileGrid.TileSize
-            };
+            TileGridComponent tileGridComponent = new TileGridComponent();
 
-            ConvertTiles(tileGrid, out tileGridComponent);
+            tileGridComponent.GridHeight = tileGrid.BakedHeight;
+            tileGridComponent.GridWidth = tileGrid.BakedWidth;
+            tileGridComponent.TileSize = tileGrid.BakedTileSize;
+            tileGridComponent.GridOrigin = tileGrid.StartingPoint;
+            tileGridComponent.HorizontalDirection = tileGrid.HorizontalDirection;
+            tileGridComponent.VerticalDirection = tileGrid.VerticalDirection;
+
+            ConvertTiles(tileGrid, ref tileGridComponent);
 
             Entity entity = CreateEntityFromType(typeof(TileGridComponent));
 
             _entityManager.SetComponentData(entity, tileGridComponent);
         }
 
-        private void ConvertTiles(TileGrid tileGrid, out TileGridComponent tileGridComponent)
+        private void ConvertTiles(TileGrid tileGrid, ref TileGridComponent tileGridComponent)
         {
             var tiles = tileGrid.GridTiles;
-
-            tileGridComponent = new TileGridComponent();
 
             tileGridComponent.Tiles = new NativeArray<Tile>(tiles.Length, Allocator.Persistent);
 

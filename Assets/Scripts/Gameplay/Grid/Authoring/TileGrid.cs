@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
 using GC.Gameplay.SplineFramework;
+using System;
 
 namespace GC.Gameplay.Grid
 {
@@ -16,7 +17,7 @@ namespace GC.Gameplay.Grid
         Down = -1,
     }
 
-    [ChunkSerializable]
+    [Serializable]
     public class TileGrid : MonoBehaviour
     {
         [Header("Grid properties")]
@@ -63,10 +64,10 @@ namespace GC.Gameplay.Grid
         [SerializeField]
         public int BakedWidth;
         [SerializeField]
-        private int bakedHeight;
+        public int BakedHeight;
 
         [SerializeField]
-        public float bakedTileSize;
+        public float BakedTileSize;
         [SerializeField]
         private float bakedTileRadius;
 
@@ -90,26 +91,26 @@ namespace GC.Gameplay.Grid
         [ExecuteInEditMode]
         private void GenerateGrid()
         {
-            GridTiles = new EditorTile[BakedWidth * bakedHeight];
+            GridTiles = new EditorTile[BakedWidth * BakedHeight];
 
             var currentPoint = StartingPoint;
 
-            for (int i = 0; i < bakedHeight; i++)
+            for (int i = 0; i < BakedHeight; i++)
             {
                 for (int j = 0; j < BakedWidth; j++)
                 {
-                    var centerX = currentPoint.x + bakedTileSize / 2f * (int)HorizontalDirection;
-                    var centerY = currentPoint.y + bakedTileSize / 2f * (int)VerticalDirection;
+                    var centerX = currentPoint.x + BakedTileSize / 2f * (int)HorizontalDirection;
+                    var centerY = currentPoint.y + BakedTileSize / 2f * (int)VerticalDirection;
 
                     EditorTile tile = new EditorTile(TileState.Vacant, new int2(j, i), currentPoint, new float2(centerX, centerY));
 
                     GridTiles[GetFlatArrayIndex(j, i)] = tile;
 
-                    currentPoint.x += bakedTileSize * (int)HorizontalDirection;
+                    currentPoint.x += BakedTileSize * (int)HorizontalDirection;
                 }
 
                 currentPoint.x = StartingPoint.x;
-                currentPoint.y += bakedTileSize * (int)VerticalDirection;
+                currentPoint.y += BakedTileSize * (int)VerticalDirection;
             }
         }
 
@@ -117,9 +118,9 @@ namespace GC.Gameplay.Grid
         private void SetBakedValues()
         {
             BakedWidth = GridWidth;
-            bakedHeight = GridHeight;
+            BakedHeight = GridHeight;
 
-            bakedTileSize = TileSize;
+            BakedTileSize = TileSize;
 
             bakedHorizontalDirection = HorizontalDirection;
             bakedVerticalDirection = VerticalDirection;
@@ -134,7 +135,7 @@ namespace GC.Gameplay.Grid
         [ExecuteInEditMode]
         public void BakeCollision()
         {
-            for (int i = 0; i < bakedHeight; i++)
+            for (int i = 0; i < BakedHeight; i++)
             {
                 for (int j = 0; j < BakedWidth; j++)
                 {
@@ -192,7 +193,7 @@ namespace GC.Gameplay.Grid
         [ExecuteInEditMode]
         private void BakeCollisionForTerrain(ref EditorTile tile)
         {
-            var overlapSize = new Vector3(bakedTileSize, bakedTileSize, bakedTileSize) * 0.5f * OverlapBoxModifier;
+            var overlapSize = new Vector3(BakedTileSize, BakedTileSize, BakedTileSize) * 0.5f * OverlapBoxModifier;
 
             var overlapCenter = new Vector3(tile.TileCenterPosition.x, 0, tile.TileCenterPosition.y);
 
@@ -244,9 +245,9 @@ namespace GC.Gameplay.Grid
 
             float spacing = 0.075f;
 
-            Vector3 pos = new Vector3(tilePosition.x + (bakedTileSize / 2f) * (int)bakedHorizontalDirection, 0f, tilePosition.y + (bakedTileSize / 2f) * (int)bakedVerticalDirection);
+            Vector3 pos = new Vector3(tilePosition.x + (BakedTileSize / 2f) * (int)bakedHorizontalDirection, 0f, tilePosition.y + (BakedTileSize / 2f) * (int)bakedVerticalDirection);
 
-            Vector3 size = new Vector3(bakedTileSize - spacing, 0.25f, bakedTileSize - spacing);
+            Vector3 size = new Vector3(BakedTileSize - spacing, 0.25f, BakedTileSize - spacing);
 
             Gizmos.DrawCube(pos, size);
 
@@ -260,7 +261,7 @@ namespace GC.Gameplay.Grid
             if (positionInGrid.x == BakedWidth)
                 return true;
 
-            if (positionInGrid.y == bakedHeight)
+            if (positionInGrid.y == BakedHeight)
                 return true;
 
             return false;
