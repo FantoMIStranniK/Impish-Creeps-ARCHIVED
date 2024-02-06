@@ -132,7 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 62759505}
-  - component: {fileID: 62759504}
+  - component: {fileID: 62759506}
+  - component: {fileID: 62759507}
   m_Layer: 0
   m_Name: Unit Deck
   m_TagString: Untagged
@@ -140,29 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &62759504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 62759503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b2ca943825ac0b4a99590f6fead86ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deck:
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
-  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
 --- !u!4 &62759505
 Transform:
   m_ObjectHideFlags: 0
@@ -178,6 +156,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &62759506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62759503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 303a28dd2c7f363418a9e64110d58c05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deck:
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: 3868badef09b84b479fa2ef178f5c80e, type: 3}
+  - {fileID: 7483114399603087100, guid: ad10dd4bfe1d8c94287bbbdabf94cf82, type: 3}
+--- !u!114 &62759507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62759503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7ab873ac0a6c95499e13b9d99c39f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &237482540
 GameObject:
   m_ObjectHideFlags: 0

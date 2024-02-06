@@ -26,6 +26,12 @@ namespace GC.Gameplay.Units.Spawn
             spawnTime.ValueRW.canSpawn = true;
         }
 
+        public bool IsAbleToSpawn()
+            => spawnTime.ValueRO.canSpawn;
+
+        public void SetAbilityToSpawn(bool b)
+            => spawnTime.ValueRW.canSpawn = b;
+
         [BurstCompile]
         public void Spawn(EntityCommandBuffer entityCommandBuffer, SplineContainer splineContainer, DynamicBuffer<UnitDeckElement> unitBuffer, int unitIndex)
         {

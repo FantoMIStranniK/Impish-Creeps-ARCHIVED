@@ -31,14 +31,14 @@ namespace GC.Gameplay.Towers.Projectiles
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            EntityCommandBuffer ecb =
+            EntityCommandBuffer ecb = //new EntityCommandBuffer(Allocator.TempJob);
                 SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
             SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
 
-            healthLookup.Update(ref state);
+            healthLookup.Update(ref state);//
             hitListLookup.Update(ref state);
             projectileDamage.Update(ref state);
-
+            
             state.Dependency = new ProjectileHitJob()
             {
                 enemiesHealth = healthLookup,
@@ -49,6 +49,8 @@ namespace GC.Gameplay.Towers.Projectiles
             }.Schedule(simulation, state.Dependency);
 
             state.Dependency.Complete();
+            //ecb.Playback(state.EntityManager);
+            //ecb.Dispose();
         }
     }
 

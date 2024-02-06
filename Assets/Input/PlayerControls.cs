@@ -229,18 +229,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Upgrade"",
-                    ""type"": ""Value"",
-                    ""id"": ""c51918b8-c812-428e-9438-d67e91a5889f"",
-                    ""expectedControlType"": ""Analog"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""CancelPlacement"",
                     ""type"": ""Button"",
                     ""id"": ""a2d298ef-3e3d-4b8d-abc1-a4e242377578"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UpgradeTower"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9df04df-8b58-425f-b0e2-1f5df89e9ab9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -338,45 +338,45 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1ba73e03-7c34-4ef2-aff0-fbf20d84ee77"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Upgrade"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e2f1baa9-e9b5-4c35-baa2-4166abca243d"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Upgrade"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""789b66b7-b4c4-46d7-93ce-0c40bc9df3e9"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Upgrade"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""42bec5f7-2a37-49f3-abba-efd1152f1bbd"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CancelPlacement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34ca08b5-2c05-4f18-9e9b-78809a1a1c18"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=0)"",
+                    ""groups"": """",
+                    ""action"": ""UpgradeTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6703b8db-02d4-4298-86c6-ee36a3abc818"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpgradeTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a024cfde-b32d-4373-a8f7-a43b6de4c5fd"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": """",
+                    ""action"": ""UpgradeTower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -403,8 +403,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Towers_MousePosition = m_Towers.FindAction("MousePosition", throwIfNotFound: true);
         m_Towers_PlaceTower = m_Towers.FindAction("PlaceTower", throwIfNotFound: true);
         m_Towers_GetTower = m_Towers.FindAction("GetTower", throwIfNotFound: true);
-        m_Towers_Upgrade = m_Towers.FindAction("Upgrade", throwIfNotFound: true);
         m_Towers_CancelPlacement = m_Towers.FindAction("CancelPlacement", throwIfNotFound: true);
+        m_Towers_UpgradeTower = m_Towers.FindAction("UpgradeTower", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -547,8 +547,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Towers_MousePosition;
     private readonly InputAction m_Towers_PlaceTower;
     private readonly InputAction m_Towers_GetTower;
-    private readonly InputAction m_Towers_Upgrade;
     private readonly InputAction m_Towers_CancelPlacement;
+    private readonly InputAction m_Towers_UpgradeTower;
     public struct TowersActions
     {
         private @PlayerControls m_Wrapper;
@@ -556,8 +556,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @MousePosition => m_Wrapper.m_Towers_MousePosition;
         public InputAction @PlaceTower => m_Wrapper.m_Towers_PlaceTower;
         public InputAction @GetTower => m_Wrapper.m_Towers_GetTower;
-        public InputAction @Upgrade => m_Wrapper.m_Towers_Upgrade;
         public InputAction @CancelPlacement => m_Wrapper.m_Towers_CancelPlacement;
+        public InputAction @UpgradeTower => m_Wrapper.m_Towers_UpgradeTower;
         public InputActionMap Get() { return m_Wrapper.m_Towers; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -576,12 +576,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @GetTower.started += instance.OnGetTower;
             @GetTower.performed += instance.OnGetTower;
             @GetTower.canceled += instance.OnGetTower;
-            @Upgrade.started += instance.OnUpgrade;
-            @Upgrade.performed += instance.OnUpgrade;
-            @Upgrade.canceled += instance.OnUpgrade;
             @CancelPlacement.started += instance.OnCancelPlacement;
             @CancelPlacement.performed += instance.OnCancelPlacement;
             @CancelPlacement.canceled += instance.OnCancelPlacement;
+            @UpgradeTower.started += instance.OnUpgradeTower;
+            @UpgradeTower.performed += instance.OnUpgradeTower;
+            @UpgradeTower.canceled += instance.OnUpgradeTower;
         }
 
         private void UnregisterCallbacks(ITowersActions instance)
@@ -595,12 +595,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @GetTower.started -= instance.OnGetTower;
             @GetTower.performed -= instance.OnGetTower;
             @GetTower.canceled -= instance.OnGetTower;
-            @Upgrade.started -= instance.OnUpgrade;
-            @Upgrade.performed -= instance.OnUpgrade;
-            @Upgrade.canceled -= instance.OnUpgrade;
             @CancelPlacement.started -= instance.OnCancelPlacement;
             @CancelPlacement.performed -= instance.OnCancelPlacement;
             @CancelPlacement.canceled -= instance.OnCancelPlacement;
+            @UpgradeTower.started -= instance.OnUpgradeTower;
+            @UpgradeTower.performed -= instance.OnUpgradeTower;
+            @UpgradeTower.canceled -= instance.OnUpgradeTower;
         }
 
         public void RemoveCallbacks(ITowersActions instance)
@@ -640,7 +640,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMousePosition(InputAction.CallbackContext context);
         void OnPlaceTower(InputAction.CallbackContext context);
         void OnGetTower(InputAction.CallbackContext context);
-        void OnUpgrade(InputAction.CallbackContext context);
         void OnCancelPlacement(InputAction.CallbackContext context);
+        void OnUpgradeTower(InputAction.CallbackContext context);
     }
 }
