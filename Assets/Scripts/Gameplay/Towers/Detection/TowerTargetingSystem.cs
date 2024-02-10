@@ -26,7 +26,6 @@ namespace GC.Gameplay.Towers.Detection
             localTransformLookup.Update(ref state);
             entityStorageInfo.Update(ref state);
 
-
             foreach ((RefRW<TargetComponent> target, TowerRadiusComponent radius, Entity tower) in SystemAPI.Query<RefRW<TargetComponent>, TowerRadiusComponent>().WithEntityAccess())
             {
                 if (target.ValueRO.enemy == Entity.Null)

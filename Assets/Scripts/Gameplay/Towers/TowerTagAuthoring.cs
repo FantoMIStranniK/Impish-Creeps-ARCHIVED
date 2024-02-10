@@ -1,5 +1,5 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
 namespace GC.Gameplay.Towers
 {
@@ -10,6 +10,7 @@ namespace GC.Gameplay.Towers
         public override void Bake(TowerTagAuthoring authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.None);
+
             AddComponent(entity, new TowerTag());
         }
     }

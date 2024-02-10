@@ -298,7 +298,7 @@ PrefabInstance:
     - target: {fileID: 463484499965636006, guid: 54057af09f4ba5640a421e3577bc1409,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 463484499965636006, guid: 54057af09f4ba5640a421e3577bc1409,
         type: 3}
@@ -350,50 +350,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54057af09f4ba5640a421e3577bc1409, type: 3}
---- !u!1 &367805011
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 367805013}
-  - component: {fileID: 367805012}
-  m_Layer: 0
-  m_Name: SelectedTower
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &367805012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367805011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae4352adef094b94184c997d3cc4fee0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &367805013
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367805011}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &841834938
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,4 +653,3 @@ SceneRoots:
   - {fileID: 841834941}
   - {fileID: 947085829}
   - {fileID: 159427079}
-  - {fileID: 367805013}

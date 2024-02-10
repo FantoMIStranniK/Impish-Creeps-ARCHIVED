@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace GC.Gameplay.Grid
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(TileGrid))]
     public class TileGridEditor : Editor
     {
@@ -64,4 +65,5 @@ namespace GC.Gameplay.Grid
                 tileGrid.BakeCollision();
         }
     }
+#endif
 }

@@ -17,6 +17,7 @@ namespace GC.Gameplay.Status
         public override void Bake(DamageAuthoring authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.None);
+
             AddComponent(entity, new DamageComponent
             {
                 damage = authoring.damage,

@@ -19,8 +19,7 @@ namespace GC.Gameplay.Building
 
         protected override void OnStartRunning()
         {
-            controls.Towers.PlaceTower.canceled += PlaceTower;
-            //controls.Towers.GetTower.performed += GetTower;
+            controls.Towers.PlaceTower.canceled += TryBuildTower;
             //controls.Towers.CancelPlacement.performed += CancelPlacement;
             controls.Towers.Enable();
         }
@@ -34,9 +33,9 @@ namespace GC.Gameplay.Building
 
         protected override void OnStopRunning()
         {
-            controls.Towers.PlaceTower.canceled -= PlaceTower;
-            //controls.Towers.GetTower.performed -= GetTower;
+            controls.Towers.PlaceTower.canceled -= TryBuildTower;
             //controls.Towers.CancelPlacement.performed -= CancelPlacement;
+
             controls.Towers.Disable();
         }
 
@@ -76,12 +75,10 @@ namespace GC.Gameplay.Building
             if (!IsSuitableMap(MapType.Gameplay))
                 return;
 
-            /*if (!isPlacing)
-                return;*/
-
-            PlaceTower(callback);
+            TryBuildTower(callback);
         }
 
+        //Move to static method somewhere
         private bool IsSuitableMap(MapType desiredMapType)
         {
             var mapCheckSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<MapCheckingSystem>();
@@ -92,7 +89,7 @@ namespace GC.Gameplay.Building
             return false;
         }
 
-        private void PlaceTower(InputAction.CallbackContext callback)
+        private void TryBuildTower(InputAction.CallbackContext callback)
         {
             EntityCommandBuffer ecb =
                 SystemAPI.GetSingleton<EndInitializationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
@@ -107,12 +104,9 @@ namespace GC.Gameplay.Building
             if (!SystemAPI.TryGetSingletonRW(out deck))
                 return;
 
-            DynamicBuffer<TowerDeckElement> deckBuffer = SystemAPI.GetSingletonBuffer<TowerDeckElement>(true);
+            RaycastHit hit;
 
-            Vector2 mousePos = controls.Towers.MousePosition.ReadValue<Vector2>();
-            float3 mouseWorldPos = SHelpers.GetMouseWorldPos(mousePos);
-
-            RaycastHit hit = CastRay(mouseWorldPos, mouseWorldPos + (float3)Camera.main.transform.forward * 50);
+            CastBuildRay(out hit);
 
             if (!grid.ValueRO.TileIsAvailable(hit.Position))
                 return;
@@ -121,7 +115,22 @@ namespace GC.Gameplay.Building
 
             if (!grid.ValueRO.TryGetIndexesByWorldPosition(hit.Position, out indexes))
                 return;
-            
+
+            PlaceTower(ecb, grid, deck, indexes);
+        }
+
+        private void CastBuildRay(out RaycastHit hit)
+        {
+            Vector2 mousePos = controls.Towers.MousePosition.ReadValue<Vector2>();
+            float3 mouseWorldPos = SHelpers.GetMouseWorldPos(mousePos);
+
+            hit = CastRay(mouseWorldPos, mouseWorldPos + (float3)Camera.main.transform.forward * 50);
+        }
+
+        private void PlaceTower(EntityCommandBuffer ecb, RefRW<TileGridComponent> grid, RefRW<TowerDeck> deck, int2 indexes)
+        {
+            DynamicBuffer<TowerDeckElement> deckBuffer = SystemAPI.GetSingletonBuffer<TowerDeckElement>(true);
+
             Entity newTower = ecb.Instantiate(deckBuffer[deck.ValueRO.selectedTower].tower);
 
             grid.ValueRO.SetTileState(indexes, TileState.Occupied);

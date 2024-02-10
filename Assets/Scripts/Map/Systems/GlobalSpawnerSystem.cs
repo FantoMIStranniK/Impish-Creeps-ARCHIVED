@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Entities;
 using Unity.Collections;
@@ -15,18 +16,13 @@ namespace GC.Map
     {
         public static MapPrefab MapPrefab;
 
-        public static Action OnMapDecoCreation;
         public static Action OnMapCreationFinished;
 
         private EntityManager _entityManager;
 
-        private bool _finishedCreatingMap;
-
         protected override void OnCreate()
         {
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-
-            _finishedCreatingMap = false;
 
             SceneManager.sceneLoaded += TryCreateMap;
         }
@@ -44,9 +40,6 @@ namespace GC.Map
         private bool CanStartCreatingMap()
         {
             if (!IsSuitableMap(MapType.Gameplay))
-                return false;
-
-            if (_finishedCreatingMap)
                 return false;
 
             if (MapPrefab == null)
@@ -67,7 +60,7 @@ namespace GC.Map
 
         private void CreateLevel()
         {
-            OnMapDecoCreation.Invoke();
+            CreateMapDecorations();
 
             CreateSplines();
 
@@ -75,10 +68,11 @@ namespace GC.Map
 
             CreateGrid();
 
-            _finishedCreatingMap = true;
-
             OnMapCreationFinished.Invoke();
         }
+
+        private void CreateMapDecorations()
+            => GameObject.Instantiate(MapPrefab.MapContainer.MapDecorations, Vector3.zero, Quaternion.identity);
 
         #region Spline
 

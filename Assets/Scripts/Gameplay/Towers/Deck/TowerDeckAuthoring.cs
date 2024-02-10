@@ -27,6 +27,7 @@ namespace GC.Gameplay.Towers.Deck
             }
 
             AddComponent(entity, new TowerDeck());
+
             AddBuffer<TowerDeckElement>(entity).AddRange(deckArr);
         }
     }

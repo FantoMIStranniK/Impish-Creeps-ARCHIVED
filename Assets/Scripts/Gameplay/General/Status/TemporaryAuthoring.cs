@@ -13,6 +13,7 @@ namespace GC.Gameplay.Status
         public override void Bake(TemporaryAuthoring authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.None);
+
             AddComponent(entity, new TemporaryComponent
             {
                 lifeTime = authoring.lifeTime,

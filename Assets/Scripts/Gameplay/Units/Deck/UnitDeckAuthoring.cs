@@ -16,7 +16,7 @@ namespace GC.Gameplay.Units.Movement
         {
             if (authoring.deck.Count != 10)
             {
-                Debug.LogError("Deck size has to be exactly of 10 elements");
+                Debug.LogError("Deck size has to be exactly 10 elements");
                 return;
             }
 

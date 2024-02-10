@@ -1,5 +1,4 @@
 using UnityEngine;
-using Unity.Entities;
 using Unity.Mathematics;
 using GC.Gameplay.SplineFramework;
 using System;
@@ -206,7 +205,7 @@ namespace GC.Gameplay.Grid
         #endregion
 
         #region Gizmos
-
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (GridTiles.Length != 0)
@@ -266,7 +265,7 @@ namespace GC.Gameplay.Grid
 
             return false;
         }
-
-        #endregion
+#endif
+    #endregion
     }
 }
