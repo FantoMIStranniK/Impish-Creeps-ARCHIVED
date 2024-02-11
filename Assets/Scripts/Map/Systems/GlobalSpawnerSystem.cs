@@ -72,7 +72,7 @@ namespace GC.Map
         }
 
         private void CreateMapDecorations()
-            => GameObject.Instantiate(MapPrefab.MapContainer.MapDecorations, Vector3.zero, Quaternion.identity);
+            => UnityEngine.Object.Instantiate(MapPrefab.MapContainer.MapDecorations, Vector3.zero, Quaternion.identity);
 
         #region Spline
 
