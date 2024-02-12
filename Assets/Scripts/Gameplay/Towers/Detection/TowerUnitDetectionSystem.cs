@@ -64,12 +64,12 @@ namespace GC.Gameplay.Towers.Detection
 
         [BurstCompile]
         public void Execute(ref TowerRadiusComponent towerRadius, ref LocalTransform localTransform,
-            ref TargetComponent towerTarget,
-            ref TowerUpgrades towerUpgrades)
+            ref TargetComponent towerTarget/*,
+            ref TowerUpgrades towerUpgrades*/)
         {
             NativeList<DistanceHit> unitHits = new NativeList<DistanceHit>(Allocator.Temp);
 
-            collisionWorld.OverlapSphere(localTransform.Position, towerUpgrades.AddRangeModifiers(towerRadius.radius), ref unitHits, unitCollisionFilters.unit);
+            collisionWorld.OverlapSphere(localTransform.Position, towerRadius.radius, ref unitHits, unitCollisionFilters.unit);
 
             if (unitHits.Length == 0)
                 return;

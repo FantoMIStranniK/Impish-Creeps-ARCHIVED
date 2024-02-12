@@ -15,6 +15,7 @@ namespace GC.Gameplay.Units.Collisions
         public override void Bake(CollisionFilterAuthoring authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.None);
+
             AddComponent(entity, new CollisionFilterComponent
             {
                 friendly = authoring.friendly,

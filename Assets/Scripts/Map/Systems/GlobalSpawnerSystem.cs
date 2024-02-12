@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Entities;
 using Unity.Collections;
 using GC.SceneManagement;
 using GC.Gameplay.SplineFramework.Model;
 using GC.Gameplay.SplineFramework;
+using GC.Gameplay.Grid;
 
 namespace GC.Map
 {
@@ -14,18 +16,13 @@ namespace GC.Map
     {
         public static MapPrefab MapPrefab;
 
-        public static Action OnMapDecoCreation;
         public static Action OnMapCreationFinished;
 
         private EntityManager _entityManager;
 
-        private bool _finishedCreatingMap;
-
         protected override void OnCreate()
         {
             _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-
-            _finishedCreatingMap = false;
 
             SceneManager.sceneLoaded += TryCreateMap;
         }
@@ -43,9 +40,6 @@ namespace GC.Map
         private bool CanStartCreatingMap()
         {
             if (!IsSuitableMap(MapType.Gameplay))
-                return false;
-
-            if (_finishedCreatingMap)
                 return false;
 
             if (MapPrefab == null)
@@ -66,7 +60,7 @@ namespace GC.Map
 
         private void CreateLevel()
         {
-            OnMapDecoCreation.Invoke();
+            CreateMapDecorations();
 
             CreateSplines();
 
@@ -74,10 +68,13 @@ namespace GC.Map
 
             CreateGrid();
 
-            _finishedCreatingMap = true;
-
             OnMapCreationFinished.Invoke();
         }
+
+        private void CreateMapDecorations()
+            => GameObject.Instantiate(MapPrefab.MapContainer.MapDecorations, Vector3.zero, Quaternion.identity);
+
+        #region Spline
 
         private void CreateSplines()
         {
@@ -113,10 +110,56 @@ namespace GC.Map
             });
         }
 
+        #endregion
+
+        #region Grid
+
         private void CreateGrid()
         {
+            if (MapPrefab.MapContainer.Grid == null)
+                return;
 
+            TileGrid tileGrid;
+
+            if (!MapPrefab.MapContainer.Grid.TryGetComponent(out tileGrid))
+                return;
+
+            SetUpGrid(tileGrid);
         }
+
+        private void SetUpGrid(TileGrid tileGrid)
+        {
+            TileGridComponent tileGridComponent = new TileGridComponent();
+
+            tileGridComponent.GridHeight = tileGrid.BakedHeight;
+            tileGridComponent.GridWidth = tileGrid.BakedWidth;
+            tileGridComponent.TileSize = tileGrid.BakedTileSize;
+            tileGridComponent.GridOrigin = tileGrid.StartingPoint;
+            tileGridComponent.HorizontalDirection = tileGrid.HorizontalDirection;
+            tileGridComponent.VerticalDirection = tileGrid.VerticalDirection;
+
+            ConvertTiles(tileGrid, ref tileGridComponent);
+
+            Entity entity = CreateEntityFromType(typeof(TileGridComponent));
+
+            _entityManager.SetComponentData(entity, tileGridComponent);
+        }
+
+        private void ConvertTiles(TileGrid tileGrid, ref TileGridComponent tileGridComponent)
+        {
+            var tiles = tileGrid.GridTiles;
+
+            tileGridComponent.Tiles = new NativeArray<Tile>(tiles.Length, Allocator.Persistent);
+
+            for (int i = 0; i < tileGridComponent.Tiles.Length; i++)
+            {
+                var tile = new Tile(tiles[i]);
+
+                tileGridComponent.Tiles[i] = tile;
+            }
+        }
+
+        #endregion
 
         private Entity CreateEntityFromType(params ComponentType[] type)
         {

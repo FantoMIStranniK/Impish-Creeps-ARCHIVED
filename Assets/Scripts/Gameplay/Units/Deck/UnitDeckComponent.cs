@@ -1,4 +1,3 @@
-using Unity.Collections;
 using Unity.Entities;
 
 namespace GC.Gameplay.Units.Movement

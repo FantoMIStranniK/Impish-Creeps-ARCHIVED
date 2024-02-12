@@ -27,6 +27,6 @@ namespace GC.Gameplay.Status
 
             ecb.Playback(state.EntityManager);
             ecb.Dispose();
-        }//
+        }
     }
 }

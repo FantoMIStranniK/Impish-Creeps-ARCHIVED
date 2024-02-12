@@ -10,6 +10,7 @@ namespace GC.Gameplay.Status
         public override void Bake(IsDisposingAuthoring authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.None);
+
             AddComponent(entity, new IsDisposingComponent());
         }
     }

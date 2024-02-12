@@ -1,5 +1,5 @@
-using Unity.Entities;
 using UnityEngine;
+using Unity.Entities;
 
 namespace GC.Gameplay.Status
 {
@@ -14,6 +14,7 @@ namespace GC.Gameplay.Status
         public override void Bake(AliveAuthoring authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+
             AddComponent(entity, new AliveComponent
             {
                 maxHealth = authoring.maxHealth,

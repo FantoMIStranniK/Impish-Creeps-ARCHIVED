@@ -77,6 +77,7 @@ namespace GC.Gameplay.Towers.Projectiles
                 enemy = triggerEvent.EntityA;
                 projectile = triggerEvent.EntityB;
             }
+
             if (enemiesHealth.HasComponent(triggerEvent.EntityB))
             {
                 enemy = triggerEvent.EntityB;
@@ -90,6 +91,7 @@ namespace GC.Gameplay.Towers.Projectiles
                 return;
 
             DynamicBuffer<HitList> hits = hitList[projectile];
+
             for (int i = 0; i < hits.Length; i++)
             {
                 if (hits[i].entity.Equals(enemy))
